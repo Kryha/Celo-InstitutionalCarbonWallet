@@ -1,0 +1,3 @@
+[submodule "contracts/safe-contracts"]
+	path = contracts/safe-contracts
+	url = https://github.com/safe-global/safe-contracts.git

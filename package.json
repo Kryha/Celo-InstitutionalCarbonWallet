@@ -1,4 +1,12 @@
 {
-  "name": "Institutional%20Carbon%20Wallet",
-  "packageManager": "yarn@4.0.0-rc.51"
+  "name": "institutional-carbon-wallet",
+  "packageManager": "yarn@4.0.0-rc.51",
+  "dependencies": {
+    "@safe-global/api-kit": "^1.3.1",
+    "@safe-global/protocol-kit": "^1.3.0",
+    "@safe-global/safe-core-sdk-types": "^2.3.0",
+    "dotenv": "^16.3.1",
+    "ethers": "5.7.2"
+  },
+  "license": "MIT"
 }

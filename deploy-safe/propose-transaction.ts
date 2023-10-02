@@ -46,9 +46,8 @@ await safeService.proposeTransaction({
 
 const pendingTransactions = await safeService.getPendingTransactions(safeAddress)
 
-console.log('Pending transactions.')
 console.log("The number of pending transactions is: ", pendingTransactions.count);
-console.log("The txHash of the first pending transaction is: ", pendingTransactions[0].txHash);
+console.log("The txHash of the first pending transaction is: ", pendingTransactions.results[0].safeTxHash);
 }
 
 main();

@@ -16,7 +16,7 @@ export const explorerUrlAddressTx_ALFAJORES = `https://explorer.celo.org/alfajor
 export const safeAppUrl_ALFAJORES = `https://safe.celo.org/home?safe=alfajores`
 
 // target VITALIK.eth address
-export const txDestination = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
+export const txDestination = '0xfBC93d17E251b35C7eB3D220F368A7aC9521fb37';
 
 // Fund Safe amount goerli
 export const fundSafeAmount = `0.03`

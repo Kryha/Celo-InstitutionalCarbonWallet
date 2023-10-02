@@ -9,7 +9,7 @@ import { generateSaltNonce, writeToJson } from './util/update-config'
 
 async function main() {
 
-const provider = getProvider(RPC_URL_ALFAJORES)
+const provider = getProvider(RPC_URL_GOERLI)
 
 const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider)
 const owner2Signer = getSigner(process.env.OWNER_2_PRIVATE_KEY_GOERLI!, provider)

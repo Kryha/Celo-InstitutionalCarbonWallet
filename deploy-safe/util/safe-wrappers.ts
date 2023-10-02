@@ -3,7 +3,7 @@ import { EthersAdapter } from '@safe-global/protocol-kit'
 import SafeApiKit from '@safe-global/api-kit'
 import Safe, { SafeFactory, SafeAccountConfig } from '@safe-global/protocol-kit'
 import { SafeTransactionDataPartial } from '@safe-global/safe-core-sdk-types'
-import { RPC_URL_ALFAJORES, txServiceUrl_ALFAJORES, safeAddress } from './constants'
+import { RPC_URL_ALFAJORES, txServiceUrl_ALFAJORES } from './constants'
 
 export function getProvider(RPC_URL: string) {
     return new ethers.providers.JsonRpcProvider(RPC_URL);

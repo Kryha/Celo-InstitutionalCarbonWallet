@@ -3,7 +3,7 @@ import { EthersAdapter } from '@safe-global/protocol-kit'
 import SafeApiKit from '@safe-global/api-kit'
 import Safe, { SafeFactory, SafeAccountConfig } from '@safe-global/protocol-kit'
 import { SafeTransactionDataPartial } from '@safe-global/safe-core-sdk-types'
-import { RPC_URL_ALFAJORES, txServiceUrl_ALFAJORES, safeAddress, RPC_URL_GOERLI, txServiceUrl_GOERLI } from './util/constants'
+import { RPC_URL_ALFAJORES, txServiceUrl_ALFAJORES, RPC_URL_GOERLI, txServiceUrl_GOERLI } from './util/constants'
 import { createSafe, getEthersAdapter, getProvider, getSigner } from './util/safe-wrappers'
 import { getSafeAddress, readFromJson } from './util/update-config'
 
@@ -17,19 +17,17 @@ async function main() {
     const safeService = new SafeApiKit({ txServiceUrl: txServiceUrl_GOERLI, ethAdapter: ethAdapterOwner2 })
       
     const pendingTransactions = await safeService.getPendingTransactions(safeAddress)
-    console.log("pending", pendingTransactions);
       
     const transaction = pendingTransactions.results[0]
     const safeTxHash = transaction.safeTxHash
   
     const signature = await safeSdkOwner2.signTransactionHash(safeTxHash)
     const response = await safeService.confirmTransaction(safeTxHash, signature.data)
-    console.log("response", response);
   
     const signerAddress = await owner2Signer.getAddress()
     console.log('Added a new signature to transaction with safeTxGas:', safeTxHash)
-    console.log('- Signer:', signerAddress)
-    console.log('- Signer signature:', response.signature)
+    console.log('Signer: ', signerAddress)
+    console.log('Signer signature: ', response.signature)
   }
   
   main();

@@ -5,7 +5,7 @@ import { SafeFactory, SafeAccountConfig } from '@safe-global/protocol-kit'
 import { SafeTransactionDataPartial } from '@safe-global/safe-core-sdk-types'
 import { RPC_URL_GOERLI, RPC_URL_ALFAJORES, txServiceUrl_GOERLI, txServiceUrl_ALFAJORES, etherscanUrl_GOERLI, safeAppUrl_GOERLI, fundSafeAmount, safeAmountUnitGoerli, safeThreshold } from './util/constants'
 import { getEthersAdapter, getProvider, getSigner } from './util/safe-wrappers'
-import { writeToJson } from './util/update-config'
+import { generateSaltNonce, writeToJson } from './util/update-config'
 
 async function main() {
 
@@ -28,11 +28,14 @@ const safeAccountConfig: SafeAccountConfig = {
   threshold: safeThreshold,
 }
 
-const safeSdkOwner1 = await safeFactory.deploySafe({ safeAccountConfig, saltNonce: "124" })
+const saltNonce = generateSaltNonce();
+
+const safeSdkOwner1 = await safeFactory.deploySafe({ safeAccountConfig, saltNonce })
 
 const safeAddress = await safeSdkOwner1.getAddress()
 
 const safeAddressData = { safeAddress: safeAddress };
+
 await writeToJson(safeAddressData);
 
 console.log('Your Safe has been deployed:')

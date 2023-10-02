@@ -10,7 +10,12 @@ export async function writeToJson(jsonData: any): Promise<void> {
 
 export async function readFromJson(): Promise<any> {
   const data = await fs.promises.readFile(filePath, 'utf8');
-  console.log("data", data);
+  const parsedData = JSON.parse(data);
+  return parsedData;
+}
+
+export async function getSafeAddress(): Promise<any> {
+  const data = await fs.promises.readFile(filePath, 'utf8');
   const parsedData = JSON.parse(data);
   return parsedData.safeAddress;
 }
@@ -23,15 +28,10 @@ export async function updateJson(newData: any): Promise<void> {
   console.log('JSON data has been updated in', filePath);
 }
 
-// Example usage in three lines
-const newData = { age: 31 };
-
-async function main() {
-    await writeToJson(newData);
-    const data = await readFromJson();
-    await updateJson({ updatedField: 'new value' });
+export function generateSaltNonce() {
+  const min = 1000;
+  const max = 9999;
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  return randomNumber.toString();
 }
 
-main();
-
-console.log('JSON data has been successfully updated.');

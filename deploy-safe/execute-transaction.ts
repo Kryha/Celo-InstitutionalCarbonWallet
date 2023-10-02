@@ -5,7 +5,7 @@ import Safe, { SafeFactory, SafeAccountConfig } from '@safe-global/protocol-kit'
 import { SafeTransactionDataPartial } from '@safe-global/safe-core-sdk-types'
 import { RPC_URL_ALFAJORES, txServiceUrl_ALFAJORES, safeAddress, RPC_URL_GOERLI, txServiceUrl_GOERLI } from './util/constants'
 import { createSafe, getEthersAdapter, getProvider, getSigner } from './util/safe-wrappers'
-import { readFromJson } from './util/update-config'
+import { getSafeAddress, readFromJson } from './util/update-config'
 
 async function main() {
 
@@ -16,7 +16,7 @@ async function main() {
       
     const ethAdapterOwner1 = getEthersAdapter(owner1Signer);
 
-    const safeAddress = await readFromJson();
+    const safeAddress = await getSafeAddress();
 
     const safeSdkOwner1 = await createSafe(ethAdapterOwner1, safeAddress);
 

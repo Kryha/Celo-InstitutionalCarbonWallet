@@ -3,14 +3,18 @@ import { EthersAdapter } from '@safe-global/protocol-kit'
 import SafeApiKit from '@safe-global/api-kit'
 import { SafeFactory, SafeAccountConfig } from '@safe-global/protocol-kit'
 import { SafeTransactionDataPartial } from '@safe-global/safe-core-sdk-types'
-import { RPC_URL_GOERLI, RPC_URL_ALFAJORES, txServiceUrl_GOERLI, txServiceUrl_ALFAJORES, etherscanUrl_GOERLI, safeAppUrl_GOERLI, txDestination, safeAddress, transferAmount, safeAmountUnitGoerli } from './constants'
-import { createSafe, getEthersAdapter, getProvider, getSigner } from './util'
+import { RPC_URL_GOERLI, RPC_URL_ALFAJORES, txServiceUrl_GOERLI, txServiceUrl_ALFAJORES, etherscanUrl_GOERLI, safeAppUrl_GOERLI, txDestination, safeAddress, transferAmount, safeAmountUnitGoerli } from './util/constants'
+import { createSafe, getEthersAdapter, getProvider, getSigner } from './util/safe-wrappers'
+import { safeAddress1 } from './util/config.json'
+import { readFromJson } from './util/update-config'
 
 async function main() {
 
 const provider = getProvider(RPC_URL_GOERLI);
 const signerOwner1 = getSigner(process.env.OWNER_1_PRIVATE_KEY_ALFAJORES!, provider);
 const ethAdapterOwner1 = getEthersAdapter(signerOwner1);
+
+const safeAddress = await readFromJson();
 
 const safeSdkOwner1 = await createSafe(ethAdapterOwner1, safeAddress);
 

@@ -5,122 +5,102 @@ import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Web3AuthOptions } from '@web3auth/modal';
-import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
-//import { EthHashInfo } from '@safe-global/safe-react-components'
-import { AuthKitSignInData, Web3AuthEventListener, Web3AuthModalPack } from '@safe-global/auth-kit';
-import {
-  ADAPTER_EVENTS,
-  CHAIN_NAMESPACES,
-  SafeEventEmitterProvider,
-  UserInfo,
-  WALLET_ADAPTERS
-} from '@web3auth/base';
-import { useEffect, useState } from 'react';
+import { CHAIN_NAMESPACES, IProvider, WALLET_ADAPTERS } from "@web3auth/base";
+import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
+import { Web3AuthNoModal } from "@web3auth/no-modal";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { useEffect, useState } from "react";
+import RPC from "./ethersRPC";
 
-const connectedHandler: Web3AuthEventListener = (data) => console.log('CONNECTED', data)
-const disconnectedHandler: Web3AuthEventListener = (data) => console.log('DISCONNECTED', data)
+const clientId = "BGh7VYnwzTP39lyDmA5YgMPT6T1ckFUfQx6mtPkYnslsLxHq4KhQBBTKaKbWaoX2UWE-jP4d2eUcVQ-F5lYmI9E";
 
 export default function Home() {
   
-  const [web3AuthModalPack, setWeb3AuthModalPack] = useState<Web3AuthModalPack>()
-  const [safeAuthSignInResponse, setSafeAuthSignInResponse] = useState<AuthKitSignInData | null>(
-    null
-  )
-  const [userInfo, setUserInfo] = useState<Partial<UserInfo>>()
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null)
+  const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
+  const [provider, setProvider] = useState<IProvider | null>(null);
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(false);
 
   useEffect(() => {
-    ;(async () => {
-      const options: Web3AuthOptions = {
-        clientId: 
-          'BGh7VYnwzTP39lyDmA5YgMPT6T1ckFUfQx6mtPkYnslsLxHq4KhQBBTKaKbWaoX2UWE-jP4d2eUcVQ-F5lYmI9E',
-        web3AuthNetwork: 'testnet',
-        chainConfig: {
+    const init = async () => {
+      try {
+        const chainConfig = {
           chainNamespace: CHAIN_NAMESPACES.EIP155,
-          chainId: '0x5',
-          rpcTarget: `https://rpc.ankr.com/eth_goerli`
-        },
-        uiConfig: {
-          theme: 'dark',
-          loginMethodsOrder: ['google', 'facebook']
+          chainId: "0x5",
+          rpcTarget: "https://rpc.ankr.com/eth_goerli",
+          displayName: "Testnet Goerli",
+          blockExplorer: "https://goerli.etherscan.io",
+          ticker: "ETH",
+          tickerName: "Ethereum",
+        };
+        
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        const web3auth = new Web3AuthNoModal({
+          clientId,
+          chainConfig,
+          web3AuthNetwork: "testnet"
+        });
+
+        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } });
+
+        const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: {
+            whiteLabel: {
+              appName: "Your app Name",
+              logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+              logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+              defaultLanguage: "en",
+              mode: "dark", // whether to enable dark mode. defaultValue: false
+            },
+          },
+          privateKeyProvider,
+        });
+        web3auth.configureAdapter(openloginAdapter);
+
+
+        await web3auth.init();
+        setWeb3auth(web3auth);
+        setProvider(web3auth.provider);
+
+        if (web3auth.connected) {
+          setLoggedIn(true);
         }
+      } catch (error) {
+        console.error(error);
       }
+    };
 
-      const modalConfig = {
-        [WALLET_ADAPTERS.TORUS_EVM]: {
-          label: 'torus',
-          showOnModal: false
-        },
-        [WALLET_ADAPTERS.METAMASK]: {
-          label: 'metamask',
-          showOnDesktop: true,
-          showOnMobile: false
-        }
-      }
-
-      const openloginAdapter = new OpenloginAdapter({
-        loginSettings: {
-          mfaLevel: 'none'
-        },
-        adapterSettings: {
-          uxMode: 'popup',
-          whiteLabel: {
-            name: 'Safe'
-          }
-        }
-      })
-
-      const web3AuthModalPack = new Web3AuthModalPack({
-        txServiceUrl: 'https://safe-transaction-goerli.safe.global'
-      })
-
-      await web3AuthModalPack.init({ options, adapters: [openloginAdapter], modalConfig })
-
-      web3AuthModalPack.subscribe(ADAPTER_EVENTS.CONNECTED, connectedHandler)
-
-      web3AuthModalPack.subscribe(ADAPTER_EVENTS.DISCONNECTED, disconnectedHandler)
-
-      setWeb3AuthModalPack(web3AuthModalPack)
-
-      return () => {
-        web3AuthModalPack.unsubscribe(ADAPTER_EVENTS.CONNECTED, connectedHandler)
-        web3AuthModalPack.unsubscribe(ADAPTER_EVENTS.DISCONNECTED, disconnectedHandler)
-      }
-    })()
-  }, [])
-
-  useEffect(() => {
-    if (web3AuthModalPack && web3AuthModalPack.getProvider()) {
-      ;(async () => {
-        await login()
-      })()
-    }
-  }, [web3AuthModalPack])
+    init();
+  }, []);
 
   const login = async () => {
-    console.log("logging in!")
-    if (!web3AuthModalPack) return
+    console.log("logging in");
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    const web3authProvider = await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+      loginProvider: "google",
+    });
+    setProvider(web3authProvider);
+    setLoggedIn(true);
+    const signInInfo = await web3auth.authenticateUser()
+    console.log("signInInfo", signInInfo)
 
-    const signInInfo = await web3AuthModalPack.signIn()
-    console.log('SIGN IN RESPONSE: ', signInInfo)
-
-    const userInfo = await web3AuthModalPack.getUserInfo()
-    console.log('USER INFO: ', userInfo)
-
-    setSafeAuthSignInResponse(signInInfo)
-    setUserInfo(userInfo || undefined)
-    setProvider(web3AuthModalPack.getProvider() as SafeEventEmitterProvider)
-  }
-
-  const logout = async () => {
-    if (!web3AuthModalPack) return
-
-    await web3AuthModalPack.signOut()
-
-    setProvider(null)
-    setSafeAuthSignInResponse(null)
-  }
+    const userInfo = await web3auth.getUserInfo()
+    console.log("userInfo", userInfo)
+    if (!provider) {
+      console.log("provider not initialized yet");
+      return;
+    }
+    const rpc = new RPC(provider);
+    const address = await rpc.getAccounts();
+    console.log("address", address);
+    const balance = await rpc.getBalance();
+    console.log("balance", balance);
+    const privateKey = await rpc.getPrivateKey();
+    console.log("privateKey", privateKey);
+    console.log("Logged in Successfully!");
+  };
 
   return (
     <Grid

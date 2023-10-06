@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { adapterSettings, chainConfig } from "./web3auth/constants/constants_goerli";
 import RPC from "./web3auth/ethersRPC";
 import { useWalletStore } from "@/store";
-require("dotenv").config();
 
 export default function Home() {
   const setAddress = useWalletStore((state) => state.setAddress);

@@ -11,10 +11,12 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { useEffect, useState } from "react";
-import { adapterSettings, chainConfig, clientId } from "./web3auth/constants/constants_goerli";
+import { adapterSettings, chainConfig } from "./web3auth/constants/constants_goerli";
 import RPC from "./web3auth/ethersRPC";
 
 export default function Home() {
+
+  const clientId = process.env.clientId!;
   
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<IProvider | null>(null);

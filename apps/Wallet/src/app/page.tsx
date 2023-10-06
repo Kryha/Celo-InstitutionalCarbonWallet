@@ -11,7 +11,7 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { OpenloginAdapter, OpenloginUserInfo } from "@web3auth/openlogin-adapter";
 import { useEffect, useState } from "react";
-import { adapterSettings, chainConfig } from "./web3auth/constants/constants_goerli";
+import { adapterSettings, chainConfig_GOERLI } from "./web3auth/constants";
 import RPC from "./web3auth/ethersRPC";
 import { useWalletStore } from "@/store";
 
@@ -34,11 +34,11 @@ export default function Home() {
       try {
         const web3auth = new Web3AuthNoModal({
           clientId,
-          chainConfig,
+          chainConfig: chainConfig_GOERLI,
           web3AuthNetwork: "testnet",
         });
 
-        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } });
+        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig: chainConfig_GOERLI } });
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings,
@@ -62,7 +62,6 @@ export default function Home() {
   }, []);
 
   const login = async () => {
-    console.log("Logging in");
     if (!web3auth) {
       console.log("web3auth not initialized yet");
       return;
@@ -90,8 +89,6 @@ export default function Home() {
     setBalance(balance);
     setPrivateKey(privateKey);
   };
-
-  console.log({ walletStore });
 
   return (
     <Grid

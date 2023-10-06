@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { adapterSettings, chainConfig } from "./web3auth/constants/constants_goerli";
 import RPC from "./web3auth/ethersRPC";
 import { useWalletStore } from "@/store";
+require("dotenv").config();
 
 export default function Home() {
   const setAddress = useWalletStore((state) => state.setAddress);
@@ -22,8 +23,10 @@ export default function Home() {
   const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
   const setBalance = useWalletStore((state) => state.setBalance);
   const walletStore = useWalletStore((state) => state);
-  const clientId = process.env.clientId!;
 
+  const clientId = process.env.NEXT_PUBLIC_clientId!;
+  console.log("clientId", clientId);
+  
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean | null>(false);

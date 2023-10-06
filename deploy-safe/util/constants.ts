@@ -25,4 +25,4 @@ export const safeAmountUnitCelo = `celo`
 
 // Transfer funds from safe
 export const transferAmount = `0.005`
-export const safeThreshold = 2
+export const safeThreshold = 1

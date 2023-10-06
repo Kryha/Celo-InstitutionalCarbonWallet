@@ -24,5 +24,5 @@ export const safeAmountUnitGoerli = `ether`;
 export const safeAmountUnitCelo = `celo`;
 
 // Transfer funds from safe
-export const transferAmount = `0.005`
-export const safeThreshold = 1
+export const transferAmount = `0.005`;
+export const safeThreshold = 1;

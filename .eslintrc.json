@@ -1,0 +1,33 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:functional/no-mutations",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "functional"],
+  "rules": {
+    "functional/immutable-data": "warn",
+    "functional/no-let": "off",
+    "functional/prefer-readonly-type": "off",
+    "import/no-cycle": "warn",
+    "import/no-default-export": "error",
+    "no-console": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-param-reassign": "warn",
+    "prettier/prettier": "error"
+  }
+}

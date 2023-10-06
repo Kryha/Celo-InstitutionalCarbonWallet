@@ -25,7 +25,6 @@ export default function Home() {
   const walletStore = useWalletStore((state) => state);
 
   const clientId = process.env.NEXT_PUBLIC_clientId!;
-  console.log("clientId", clientId);
   
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<IProvider | null>(null);
@@ -76,7 +75,6 @@ export default function Home() {
     setLoggedIn(true);
     const signInInfo = await web3auth.authenticateUser();
     setSignInInfo(signInInfo);
-    console.log("signInInfo", signInInfo);
 
     const userInfo = await web3auth.getUserInfo();
     setUserInfo(userInfo);

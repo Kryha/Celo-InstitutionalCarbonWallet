@@ -5,14 +5,14 @@ import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { CHAIN_NAMESPACES, IProvider, WALLET_ADAPTERS } from "@web3auth/base";
+import { AuthKitSignInData } from "@safe-global/auth-kit";
+import { IProvider, WALLET_ADAPTERS } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { useEffect, useState } from "react";
-import RPC from "./ethersRPC";
-
-const clientId = "BGh7VYnwzTP39lyDmA5YgMPT6T1ckFUfQx6mtPkYnslsLxHq4KhQBBTKaKbWaoX2UWE-jP4d2eUcVQ-F5lYmI9E";
+import { adapterSettings, chainConfig, clientId } from "./web3auth/constants/constants_goerli";
+import RPC from "./web3auth/ethersRPC";
 
 export default function Home() {
   
@@ -22,18 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     const init = async () => {
-      try {
-        const chainConfig = {
-          chainNamespace: CHAIN_NAMESPACES.EIP155,
-          chainId: "0x5",
-          rpcTarget: "https://rpc.ankr.com/eth_goerli",
-          displayName: "Testnet Goerli",
-          blockExplorer: "https://goerli.etherscan.io",
-          ticker: "ETH",
-          tickerName: "Ethereum",
-        };
-        
-        // eslint-disable-next-line @typescript-eslint/no-shadow
+      try {        
         const web3auth = new Web3AuthNoModal({
           clientId,
           chainConfig,
@@ -43,15 +32,7 @@ export default function Home() {
         const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } });
 
         const openloginAdapter = new OpenloginAdapter({
-          adapterSettings: {
-            whiteLabel: {
-              appName: "Your app Name",
-              logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-              defaultLanguage: "en",
-              mode: "dark", // whether to enable dark mode. defaultValue: false
-            },
-          },
+          adapterSettings,
           privateKeyProvider,
         });
         web3auth.configureAdapter(openloginAdapter);
@@ -62,7 +43,7 @@ export default function Home() {
         setProvider(web3auth.provider);
 
         if (web3auth.connected) {
-          setLoggedIn(true);
+          setLoggedIn(true); 
         }
       } catch (error) {
         console.error(error);
@@ -73,7 +54,7 @@ export default function Home() {
   }, []);
 
   const login = async () => {
-    console.log("logging in");
+    console.log("Logging in");
     if (!web3auth) {
       console.log("web3auth not initialized yet");
       return;

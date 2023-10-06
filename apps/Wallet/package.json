@@ -19,7 +19,7 @@
     "@web3auth/openlogin-adapter": "7.0.1",
     "@web3auth/base-provider":"7.0.1",
     "@web3auth/ethereum-provider": "7.0.1",
-    "ethers": "6.6.2",
+    "ethers": "5.7.2",
     "next": "13.5.4",
     "react": "18",
     "react-dom": "18"

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import GoogleIcon from "@mui/icons-material/Google";
 import { Button, Stack } from "@mui/material";
@@ -9,26 +9,32 @@ import { AuthKitSignInData } from "@safe-global/auth-kit";
 import { IProvider, WALLET_ADAPTERS } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
-import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { OpenloginAdapter, OpenloginUserInfo } from "@web3auth/openlogin-adapter";
 import { useEffect, useState } from "react";
 import { adapterSettings, chainConfig } from "./web3auth/constants/constants_goerli";
 import RPC from "./web3auth/ethersRPC";
+import { useWalletStore } from "@/store";
 
 export default function Home() {
-
+  const setAddress = useWalletStore((state) => state.setAddress);
+  const setPrivateKey = useWalletStore((state) => state.setPrivateKey);
+  const setUserInfo = useWalletStore((state) => state.setUserInfo);
+  const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
+  const setBalance = useWalletStore((state) => state.setBalance);
+  const walletStore = useWalletStore((state) => state);
   const clientId = process.env.clientId!;
-  
+
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean | null>(false);
 
   useEffect(() => {
     const init = async () => {
-      try {        
+      try {
         const web3auth = new Web3AuthNoModal({
           clientId,
           chainConfig,
-          web3AuthNetwork: "testnet"
+          web3AuthNetwork: "testnet",
         });
 
         const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } });
@@ -39,13 +45,12 @@ export default function Home() {
         });
         web3auth.configureAdapter(openloginAdapter);
 
-
         await web3auth.init();
         setWeb3auth(web3auth);
         setProvider(web3auth.provider);
 
         if (web3auth.connected) {
-          setLoggedIn(true); 
+          setLoggedIn(true);
         }
       } catch (error) {
         console.error(error);
@@ -66,24 +71,27 @@ export default function Home() {
     });
     setProvider(web3authProvider);
     setLoggedIn(true);
-    const signInInfo = await web3auth.authenticateUser()
-    console.log("signInInfo", signInInfo)
+    const signInInfo = await web3auth.authenticateUser();
+    setSignInInfo(signInInfo);
+    console.log("signInInfo", signInInfo);
 
-    const userInfo = await web3auth.getUserInfo()
-    console.log("userInfo", userInfo)
+    const userInfo = await web3auth.getUserInfo();
+    setUserInfo(userInfo);
+
     if (!provider) {
       console.log("provider not initialized yet");
       return;
     }
     const rpc = new RPC(provider);
     const address = await rpc.getAccounts();
-    console.log("address", address);
     const balance = await rpc.getBalance();
-    console.log("balance", balance);
     const privateKey = await rpc.getPrivateKey();
-    console.log("privateKey", privateKey);
-    console.log("Logged in Successfully!");
+    setAddress(address);
+    setBalance(balance);
+    setPrivateKey(privateKey);
   };
+
+  console.log({ walletStore });
 
   return (
     <Grid

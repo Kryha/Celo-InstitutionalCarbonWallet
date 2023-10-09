@@ -94,7 +94,14 @@ export default function Login() {
               startIcon={<GoogleIcon />}
               onClick={login}
               disabled={!web3Auth}
-              endIcon={!web3Auth ? <CircularProgress color="inherit" size={20} /> : null}
+              endIcon={
+                !web3Auth ? (
+                  <CircularProgress
+                    color="inherit"
+                    size={20}
+                  />
+                ) : null
+              }
             >
               Login with Google
             </Button>

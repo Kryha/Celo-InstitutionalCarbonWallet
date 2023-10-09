@@ -1,10 +1,95 @@
+"use client";
+
 import GoogleIcon from "@mui/icons-material/Google";
+import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Button, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { AuthKitSignInData } from "@safe-global/auth-kit";
+import { IProvider, WALLET_ADAPTERS } from "@web3auth/base";
+import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
+import { Web3AuthNoModal } from "@web3auth/no-modal";
+import { OpenloginAdapter, OpenloginUserInfo } from "@web3auth/openlogin-adapter";
+import { useEffect, useState } from "react";
+import { ADAPTER_SETTINGS, GOERLI_CHAIN_CONFIG } from "./web3auth/constants";
+import RPC from "./web3auth/ethersRPC";
+import { useWalletStore } from "@/store";
 
 export default function Home() {
+  const setAddress = useWalletStore((state) => state.setAddress);
+  const setPrivateKey = useWalletStore((state) => state.setPrivateKey);
+  const setUserInfo = useWalletStore((state) => state.setUserInfo);
+  const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
+  const setBalance = useWalletStore((state) => state.setBalance);
+  const walletStore = useWalletStore((state) => state);
+
+  const clientId = process.env.NEXT_PUBLIC_clientId!;
+  
+  const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
+  const [provider, setProvider] = useState<IProvider | null>(null);
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(false);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const web3auth = new Web3AuthNoModal({
+          clientId,
+          chainConfig: GOERLI_CHAIN_CONFIG,
+          web3AuthNetwork: "testnet",
+        });
+
+        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig: GOERLI_CHAIN_CONFIG } });
+
+        const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: ADAPTER_SETTINGS,
+          privateKeyProvider,
+        });
+        web3auth.configureAdapter(openloginAdapter);
+
+        await web3auth.init();
+        setWeb3auth(web3auth);
+        setProvider(web3auth.provider);
+
+        if (web3auth.connected) {
+          setLoggedIn(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    init();
+  }, []);
+
+  const login = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    const web3authProvider = await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+      loginProvider: "google",
+    });
+    setProvider(web3authProvider);
+    setLoggedIn(true);
+    const signInInfo = await web3auth.authenticateUser();
+    setSignInInfo(signInInfo);
+
+    const userInfo = await web3auth.getUserInfo();
+    setUserInfo(userInfo);
+
+    if (!provider) {
+      console.log("provider not initialized yet");
+      return;
+    }
+    const rpc = new RPC(provider);
+    const address = await rpc.getAccounts();
+    const balance = await rpc.getBalance();
+    const privateKey = await rpc.getPrivateKey();
+    setAddress(address);
+    setBalance(balance);
+    setPrivateKey(privateKey);
+  };
+
   return (
     <Grid
       container
@@ -53,6 +138,7 @@ export default function Home() {
               variant="outlined"
               fullWidth
               startIcon={<GoogleIcon />}
+              onClick={login}
             >
               Login with Google
             </Button>

@@ -48,7 +48,7 @@ export default function Login() {
 
   useEffect(() => {
     const openlogin_store = localStorage.getItem("openlogin_store") || "";
-    const sessionId = JSON.parse(openlogin_store).sessionId;
+    const sessionId = openlogin_store ? JSON.parse(openlogin_store).sessionId : "";
 
     if (!web3Auth && sessionId) {
       localStorage.setItem("openlogin_store", JSON.stringify({ sessionId: "" }));

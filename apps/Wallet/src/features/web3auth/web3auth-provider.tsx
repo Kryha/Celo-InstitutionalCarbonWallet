@@ -10,7 +10,7 @@ import { useEffect } from "react";
 export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
   const web3Auth = useWalletStore((state) => state.web3Auth);
   const setWeb3Auth = useWalletStore((state) => state.setWeb3Auth);
-  const clientId = process.env.clientId!;
+  const clientId = process.env.NEXT_PUBLIC_clientId!;
 
   useEffect(() => {
     const init = async () => {

@@ -3,7 +3,7 @@
 import { CHAIN_NAMESPACES } from "@web3auth/base";
 
 export const GOERLI_CHAIND_ID = "0x5"
-export const GOERLI_RPC_URL = "https://rpc.ankr.com/eth_goerli"; // check this url and that it matches the one in deploy safe
+export const GOERLI_RPC_URL = "https://rpc.ankr.com/eth_goerli";
 export const GOERLI_DISPLAY_NAME = "Goerli Testnet"
 export const GOERLI_BLOCK_EXPLORER = "https://goerli.etherscan.io"
 export const GOERLI_TICKER = "ETH"

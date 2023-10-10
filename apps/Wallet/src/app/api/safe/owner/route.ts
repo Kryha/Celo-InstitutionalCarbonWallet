@@ -1,7 +1,8 @@
+import { AddOwnerTransactionBody } from "@/types";
 import { getSafe } from "../utils";
 
 export async function POST(req: Request): Promise<Response> {
-  const body = await req.json();
+  const body = (await req.json()) as AddOwnerTransactionBody;
 
   const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_GOERLI);
 

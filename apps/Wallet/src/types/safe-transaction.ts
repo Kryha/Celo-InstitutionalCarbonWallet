@@ -3,3 +3,7 @@ export type SafeTransactionBody = {
   amount: string;
   destination: string;
 };
+
+export type AddOwnerTransactionBody = {
+  ownerAddress: string;
+}

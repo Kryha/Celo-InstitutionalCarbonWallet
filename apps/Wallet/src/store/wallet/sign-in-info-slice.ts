@@ -4,10 +4,10 @@ export type SignInInfo = { idToken: string };
 
 export type SignInInfoSlice = {
   signInInfo: null | SignInInfo;
-  setSignInInfo: (address: SignInInfo) => void;
+  setSignInInfo: (signInInfo: SignInInfo | null) => void;
 };
 
 export const createSignInInfoSlice: StateCreator<SignInInfoSlice, [], [], SignInInfoSlice> = (set) => ({
   signInInfo: null,
-  setSignInInfo: (signInInfo: SignInInfo) => set(() => ({ signInInfo })),
+  setSignInInfo: (signInInfo: SignInInfo | null) => set(() => ({ signInInfo })),
 });

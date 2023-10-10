@@ -2,7 +2,7 @@
 import type { IProvider } from "@web3auth/base";
 import { ethers } from "ethers";
 
-export default class EthereumRpc {
+export class EthereumRpc {
   private provider: IProvider;
 
   constructor(provider: IProvider) {

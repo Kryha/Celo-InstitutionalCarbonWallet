@@ -5,11 +5,10 @@ import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { AuthKitSignInData } from "@safe-global/auth-kit";
 import { IProvider, WALLET_ADAPTERS } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
-import { OpenloginAdapter, OpenloginUserInfo } from "@web3auth/openlogin-adapter";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { useEffect, useState } from "react";
 import { ADAPTER_SETTINGS, GOERLI_CHAIN_CONFIG } from "./web3auth/constants";
 import RPC from "./web3auth/ethersRPC";
@@ -24,7 +23,7 @@ export default function Home() {
   const walletStore = useWalletStore((state) => state);
 
   const clientId = process.env.NEXT_PUBLIC_clientId!;
-  
+
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean | null>(false);

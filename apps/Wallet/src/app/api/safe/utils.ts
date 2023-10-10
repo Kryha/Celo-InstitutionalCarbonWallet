@@ -27,10 +27,16 @@ export async function getSafeService(): Promise<SafeApiKit> {
   return safeService;
 }
 
-export async function createTransaction(body: SafeTransactionBody): Promise<ethers.ContractReceipt | undefined> {
-  const { pk, amount, destination } = body;
+export async function getSafe(pk?: string): Promise<Safe> {
   const ethAdapter = getEthAdapter(pk);
   const safeSdk = await Safe.create({ ethAdapter, safeAddress: process.env.SAFE_ADDRESS! });
+
+  return safeSdk;
+}
+
+export async function createTransaction(body: SafeTransactionBody): Promise<ethers.ContractReceipt | undefined> {
+  const { pk, amount, destination } = body;
+  const safeSdk = await getSafe(pk);
   const ethAmount = ethers.utils.parseUnits(amount, "ether").toString();
 
   const safeTransactionData: SafeTransactionDataPartial = {

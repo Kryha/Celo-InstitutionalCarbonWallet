@@ -21,7 +21,7 @@ export default function Dashboard() {
   const state = useWalletStore((state) => state);
   const { push } = useRouter();
 
-  useIsSafeOwner(state.address, state.balance);
+  useIsSafeOwner();
 
   const logout = async () => {
     if (web3Auth) {
@@ -43,12 +43,6 @@ export default function Dashboard() {
       push("/login");
     }
   }, [web3Auth]);
-
-  // useEffect(() => {
-  //   if(Number(state.balance) < GOERLI_FUND_GAS_AMOUNT_THRESHOLD){
-  //     useFundSafeOwner(state.address);
-  //   }
-  // }, []);
   
   if (!web3Auth) {
     return (

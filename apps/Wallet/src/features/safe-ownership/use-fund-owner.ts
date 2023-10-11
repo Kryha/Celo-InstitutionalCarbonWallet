@@ -9,7 +9,6 @@ export function useFundSafeOwner() {
   const pk = process.env.NEXT_PUBLIC_OWNER_1_PRIVATE_KEY_GOERLI!;
   return useMutation({
     mutationFn: (address: string) => {
-      console.log("addr", address);
       return fetch("/api/safe/transaction", {
         method: "POST",
         body: JSON.stringify({

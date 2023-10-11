@@ -1,13 +1,12 @@
 "use client";
 
 import { PageLayout } from "@/components";
+import { useIsSafeOwner } from "@/features/safe-ownership";
 import { useWalletStore } from "@/store";
 import GoogleIcon from "@mui/icons-material/Google";
-import { Button, CircularProgress, Stack } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Dashboard() {
@@ -20,6 +19,8 @@ export default function Dashboard() {
   const setWeb3Auth = useWalletStore((state) => state.setWeb3Auth);
   const state = useWalletStore((state) => state);
   const { push } = useRouter();
+
+  useIsSafeOwner(state.address);
 
   const logout = async () => {
     if (web3Auth) {

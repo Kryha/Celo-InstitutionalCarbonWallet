@@ -6,13 +6,7 @@ export function useIsSafeOwner(address: string) {
 
   return useQuery({
     queryKey: ["isOwner", address],
-    queryFn: () => {
-      if (address) {
-        return fetch(`/api/safe/owner/${address}`).then((res) => res.json());
-      }
-
-      return;
-    },
+    queryFn: () => fetch(`/api/safe/owner/${address}`).then((res) => res.json()),
     onSuccess: (isOwner: boolean) => {
       if (!isOwner && address) {
         addOwner(address);

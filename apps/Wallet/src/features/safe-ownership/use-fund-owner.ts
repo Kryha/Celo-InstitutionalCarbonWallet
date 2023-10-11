@@ -28,15 +28,3 @@ export function useFundSafeOwner() {
     },
   });
 }
-
-async function setNewBalance() {
-  const setBalance = useWalletStore((state) => state.setBalance);
-  const web3Auth = useWalletStore((state) => state.web3Auth);
-  
-  if (web3Auth && web3Auth.provider) {
-    
-    const rpc = new EthereumRpc(web3Auth.provider);
-    const balance = await rpc.getBalance();
-    setBalance(balance);
-  }
-}

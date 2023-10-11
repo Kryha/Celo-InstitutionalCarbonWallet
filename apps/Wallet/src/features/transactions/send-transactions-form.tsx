@@ -1,6 +1,6 @@
 "use client";
 
-import { FormDropdownInput, FormNumberInput } from "@/components";
+import { FormDropdownInput, FormTextInput } from "@/components";
 import { useWalletStore } from "@/store";
 import { SafeTransactionBody } from "@/types";
 import { Button, CircularProgress, Stack } from "@mui/material";
@@ -22,6 +22,7 @@ export function SendTransactionForm() {
     formState: { isSubmitting, isLoading, isValidating },
   } = formMethods;
   const isDisabled = isSubmitting || isLoading || isValidating || isSendingTransaction;
+
   const onSubmit = (data: SafeTransactionBody) => sendTransaction(data);
 
   return (
@@ -47,14 +48,14 @@ export function SendTransactionForm() {
             formControlProps={{ color: "secondary" }}
             rules={{ required: { value: true, message: "This field is required" } }}
           />
-          <FormNumberInput
+          <FormTextInput
             name="amount"
             label="Amount"
             control={control}
             textFieldProps={{ color: "secondary" }}
             rules={{
               required: { value: true, message: "This field is required" },
-              validate: (value: number) => value > 0 || "Amount must be more than 0",
+              validate: (value: string) => value === "0" || "Amount must be more than 0",
             }}
           />
           <Button

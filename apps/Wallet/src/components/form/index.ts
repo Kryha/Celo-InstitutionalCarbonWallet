@@ -1,2 +1,2 @@
 export * from "./form-dropdown";
-export * from "./form-number-input";
+export * from "./form-text-input";

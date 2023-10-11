@@ -1,8 +1,7 @@
 "use client";
 
 import { PageLayout } from "@/components";
-import { useIsSafeOwner, useFundSafeOwner } from "@/features/safe-ownership";
-import { GOERLI_FUND_GAS_AMOUNT_THRESHOLD } from "@/features/safe-ownership/constants";
+import { useIsSafeOwner } from "@/features/safe-ownership";
 import { useWalletStore } from "@/store";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
@@ -43,7 +42,7 @@ export default function Dashboard() {
       push("/login");
     }
   }, [web3Auth]);
-  
+
   if (!web3Auth) {
     return (
       <PageLayout>

@@ -1,6 +1,5 @@
 "use client";
 
-import { PageLayout } from "@/components";
 import { EthereumRpc } from "@/features";
 import { useWalletStore } from "@/store";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -12,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { WALLET_ADAPTERS } from "@web3auth/base";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Login() {
   const setAddress = useWalletStore((state) => state.setAddress);
@@ -21,6 +20,7 @@ export default function Login() {
   const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
   const setBalance = useWalletStore((state) => state.setBalance);
   const web3Auth = useWalletStore((state) => state.web3Auth);
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
   const pathname = usePathname();
   const { push } = useRouter();
 
@@ -30,6 +30,7 @@ export default function Login() {
       await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
         loginProvider: "google",
       });
+      setIsLoggingIn(true)
       const signInInfo = await web3Auth.authenticateUser();
       const userInfo = await web3Auth.getUserInfo();
       const address = await rpc.getAccounts();
@@ -55,8 +56,24 @@ export default function Login() {
     }
   }, [web3Auth, pathname]);
 
+  if (isLoggingIn) {
+    return (
+        <Stack
+          height={1}
+          width={1}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <CircularProgress color="secondary" />
+        </Stack>
+    );
+  }
+
   return (
-    <PageLayout>
+    <Grid
+      container
+      height="100vh"
+    >
       <Grid
         item
         xs={12}
@@ -68,44 +85,41 @@ export default function Login() {
         <Stack
           my={8}
           mx={4}
+          maxWidth={300}
+          gap={4}
         >
-          <Stack
-            maxWidth={300}
-            gap={4}
-          >
-            <Box>
-              <Typography
-                variant="h2"
-                color="primary.light"
-                fontWeight={700}
-              >
-                Login
-              </Typography>
-              <Typography
-                variant="body2"
-                color="primary.light"
-              >
-                Use your Google account to access your carbon wallet
-              </Typography>
-            </Box>
-            <Button
-              variant="outlined"
-              fullWidth
-              startIcon={<GoogleIcon />}
-              onClick={login}
-              disabled={!web3Auth}
-              endIcon={
-                !web3Auth ? (
-                  <CircularProgress
-                    color="inherit"
-                    size={20}
-                  />
-                ) : null
-              }
+          <Box>
+            <Typography
+              variant="h2"
+              color="primary.light"
+              fontWeight={700}
             >
-              Login with Google
-            </Button>
-          </Stack>
+              Login
+            </Typography>
+            <Typography
+              variant="body2"
+              color="primary.light"
+            >
+              Use your Google account to access your carbon wallet
+            </Typography>
+          </Box>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<GoogleIcon />}
+            onClick={login}
+            disabled={!web3Auth}
+            endIcon={
+              !web3Auth ? (
+                <CircularProgress
+                  color="inherit"
+                  size={20}
+                />
+              ) : null
+            }
+          >
+            Login with Google
+          </Button>
         </Stack>
       </Grid>
       <Grid
@@ -137,6 +151,6 @@ export default function Login() {
           </Typography>
         </Stack>
       </Grid>
-    </PageLayout>
+    </Grid>
   );
 }

@@ -18,15 +18,12 @@ export function SendTransactionForm() {
   });
   const {
     handleSubmit,
-    reset,
     control,
-    getValues,
-    formState: { isSubmitting, isLoading, isValidating, errors },
+    formState: { isSubmitting, isLoading, isValidating },
   } = formMethods;
   const isDisabled = isSubmitting || isLoading || isValidating || isSendingTransaction;
-  const values = getValues();
   const onSubmit = (data: SafeTransactionBody) => sendTransaction(data);
-  console.log({ values, errors });
+
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)}>

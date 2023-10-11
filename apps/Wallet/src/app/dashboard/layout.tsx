@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const state = useWalletStore((state) => state);
   const { push } = useRouter();
 
-  useIsSafeOwner(state.address);
+  useIsSafeOwner();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

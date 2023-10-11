@@ -2,8 +2,9 @@ import { useWalletStore } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { useAddSafeOwner } from "./use-add-safe-owner";
 
-export function useIsSafeOwner(address: string) {
+export function useIsSafeOwner() {
   const { mutate: addOwner } = useAddSafeOwner();
+  const address = useWalletStore((state) => state.address);
   const isSafeOwner = useWalletStore((state) => state.isSafeOwner);
   const setIsSafeOwner = useWalletStore((state) => state.setIsSafeOwner);
 

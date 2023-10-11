@@ -9,7 +9,7 @@ import { EXCHANGE_TRANSFER_LIST } from "./constants";
 import { useSendTransaction } from "./services";
 
 export function SendTransactionForm() {
-  const address = useWalletStore((state) => state.address);
+  const privateKey = useWalletStore((state) => state.privateKey);
   const userInfo = useWalletStore((state) => state.userInfo);
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
   const formMethods = useForm<SafeTransactionBody>({
@@ -35,7 +35,7 @@ export function SendTransactionForm() {
             name="pk"
             label="Send from"
             control={control}
-            options={[{ label: userInfo?.name || "", value: address }]}
+            options={[{ label: userInfo?.name || "", value: privateKey }]}
             formControlProps={{ color: "secondary" }}
             rules={{ required: { value: true, message: "This field is required" } }}
           />

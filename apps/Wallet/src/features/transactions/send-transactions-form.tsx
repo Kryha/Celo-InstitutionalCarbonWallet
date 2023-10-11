@@ -12,7 +12,7 @@ export function SendTransactionForm() {
   const address = useWalletStore((state) => state.address);
   const userInfo = useWalletStore((state) => state.userInfo);
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
-  const formMethods = useForm<any>({
+  const formMethods = useForm<SafeTransactionBody>({
     defaultValues: {},
     mode: "onBlur",
   });

@@ -1,0 +1,81 @@
+"use client";
+
+import { FormDropdownInput, FormTextInput } from "@/components";
+import { useWalletStore } from "@/store";
+import { SafeTransactionBody } from "@/types";
+import { Button, CircularProgress, Stack } from "@mui/material";
+import { FormProvider, useForm } from "react-hook-form";
+import { EXCHANGE_TRANSFER_LIST } from "./constants";
+import { useSendTransaction } from "./services";
+
+export function SendTransactionForm() {
+  const privateKey = useWalletStore((state) => state.privateKey);
+  const userInfo = useWalletStore((state) => state.userInfo);
+  const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
+  const formMethods = useForm<SafeTransactionBody>({
+    defaultValues: {},
+    mode: "onBlur",
+  });
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting, isLoading, isValidating },
+  } = formMethods;
+  const isDisabled = isSubmitting || isLoading || isValidating || isSendingTransaction;
+
+  const onSubmit = (data: SafeTransactionBody) => sendTransaction(data);
+
+  return (
+    <FormProvider {...formMethods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          gap={4}
+          maxWidth={300}
+        >
+          <FormDropdownInput
+            name="pk"
+            label="Send from"
+            control={control}
+            options={[{ label: userInfo?.name || "", value: privateKey }]}
+            formControlProps={{ color: "secondary" }}
+            rules={{ required: { value: true, message: "This field is required" } }}
+          />
+          <FormDropdownInput
+            name="destination"
+            label="Send to"
+            control={control}
+            options={EXCHANGE_TRANSFER_LIST}
+            formControlProps={{ color: "secondary" }}
+            rules={{ required: { value: true, message: "This field is required" } }}
+          />
+          <FormTextInput
+            name="amount"
+            label="Amount"
+            control={control}
+            textFieldProps={{ color: "secondary" }}
+            rules={{
+              required: { value: true, message: "This field is required" },
+              validate: (value: string) => value === "0" || "Amount must be more than 0",
+            }}
+          />
+          <Button
+            variant="outlined"
+            fullWidth
+            type="submit"
+            disabled={isDisabled}
+            endIcon={
+              isDisabled ? (
+                <CircularProgress
+                  color="inherit"
+                  size={20}
+                />
+              ) : null
+            }
+          >
+            Send
+          </Button>
+        </Stack>
+      </form>
+    </FormProvider>
+  );
+}

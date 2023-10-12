@@ -1,6 +1,9 @@
+import { useWalletStore } from "@/store";
 import { useMutation } from "@tanstack/react-query";
 
 export function useAddSafeOwner() {
+  const setIsSafeOwner = useWalletStore((state) => state.setIsSafeOwner);
+
   return useMutation({
     mutationFn: (address: string) => {
       return fetch("/api/safe/owner", {
@@ -10,5 +13,6 @@ export function useAddSafeOwner() {
         }),
       });
     },
+    onSuccess: () => setIsSafeOwner(true),
   });
 }

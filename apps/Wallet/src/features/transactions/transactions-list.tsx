@@ -15,7 +15,7 @@ import {
   Theme,
   Toolbar,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -35,7 +35,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Fragment, forwardRef, useState } from "react";
 import { EXCHANGE_TRANSFER_LIST } from "./constants";
 import { useGetTransactions } from "./services";
-
+import { ethers } from "ethers";
 dayjs.extend(relativeTime);
 
 // TODO: split components
@@ -55,7 +55,7 @@ const Transition = forwardRef(function Transition(
   );
 });
 
-export function ListItemz(props: any) {
+export function ListItems(props: any) {
   const { id, date, from, to, value } = props;
   const [open, setOpen] = useState(false);
   const isBiggerThanSmScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
@@ -130,7 +130,7 @@ export function ListItemz(props: any) {
                   </Typography>
                 </Stack>
                 <Stack>
-                  <Chip label={`${Number(value) / 1000000000000000000} ETH`} />
+                  <Chip label={`${ethers.utils.formatEther(ethers.BigNumber.from(value))} ETH`} />
                 </Stack>
               </Stack>
             }
@@ -229,7 +229,11 @@ export function TransactionsList() {
 
   if (isLoadingTransactions) {
     return (
-      <Box width={1} display="flex" justifyContent="center">
+      <Box
+        width={1}
+        display="flex"
+        justifyContent="center"
+      >
         <CircularProgress
           size={20}
           color="secondary"
@@ -242,7 +246,7 @@ export function TransactionsList() {
     <List sx={{ p: 0 }}>
       {transactions.map((transaction: any) => (
         <Fragment key={transaction.transactionHash}>
-          <ListItemz
+          <ListItems
             id={transaction.transactionHash}
             date={transaction.executionDate}
             from={transaction.executor}

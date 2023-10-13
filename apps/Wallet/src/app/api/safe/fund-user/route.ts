@@ -1,5 +1,5 @@
 import { GOERLI_FUND_GAS_AMOUNT } from "@/features/safe-ownership/constants";
-import { FundUserTransactionBody, SafeTransactionBody } from "@/types/safe-transaction";
+import { FundUserTransactionBody } from "@/types/safe-transaction";
 import { createTransaction } from "../utils";
 
 

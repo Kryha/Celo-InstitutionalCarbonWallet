@@ -212,7 +212,7 @@ export function ListItems(props: any) {
                   >
                     Value:
                   </TableCell>
-                  <TableCell align="left">{Number(value) / 1000000000000000000} ETH</TableCell>
+                  <TableCell align="left">{ethers.utils.formatEther(ethers.BigNumber.from(value))} ETH</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

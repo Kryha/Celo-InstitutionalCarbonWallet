@@ -1,14 +1,12 @@
 import { SafeAccountConfig, SafeFactory } from "@safe-global/protocol-kit";
 import { ethers } from "ethers";
 import {
-  RPC_URL_ALFAJORES,
-  RPC_URL_GOERLI,
   etherscanUrlTx_GOERLI,
   etherscanUrl_GOERLI,
   explorerUrlAddressTx_ALFAJORES,
   explorerUrlAddress_ALFAJORES,
-  fundSafeAmount,
-  safeAmountUnitGoerli,
+  fundSafeAmount, RPC_URL_ALFAJORES,
+  RPC_URL_GOERLI, safeAmountUnitGoerli,
   safeAppUrl_ALFAJORES,
   safeAppUrl_GOERLI,
   safeThreshold
@@ -30,7 +28,7 @@ async function main() {
   const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
 
   const safeAccountConfig: SafeAccountConfig = {
-    owners: [await owner1Signer.getAddress(), await owner2Signer.getAddress(), await owner3Signer.getAddress()],
+    owners: [await owner1Signer.getAddress()],
     threshold: safeThreshold,
   };
 
@@ -43,6 +41,7 @@ async function main() {
   const safeAddressData = { safeAddress: safeAddress };
 
   await writeToJson(safeAddressData);
+  
 
   if (provider.connection.url === RPC_URL_GOERLI) {
     console.log("Your Safe has been deployed to GOERLI:");

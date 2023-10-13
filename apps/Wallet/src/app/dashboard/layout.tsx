@@ -2,7 +2,7 @@
 
 import { useIsSafeOwner } from "@/features";
 import { useWalletStore } from "@/store";
-import AccountCircle from '@mui/icons-material/AccountCircleOutlined';
+import AccountCircle from "@mui/icons-material/AccountCircleOutlined";
 import { CircularProgress, Stack } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -23,10 +23,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const setBalance = useWalletStore((state) => state.setBalance);
   const web3Auth = useWalletStore((state) => state.web3Auth);
   const setWeb3Auth = useWalletStore((state) => state.setWeb3Auth);
-  const state = useWalletStore((state) => state);
+  const { isLoading: isLoadingIsSafeOwner } = useIsSafeOwner();
   const { push } = useRouter();
-
-  useIsSafeOwner();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -58,22 +56,26 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     }
   }, [web3Auth]);
 
-  if (!web3Auth) {
+  if (!web3Auth || isLoadingIsSafeOwner) {
     return (
       <Box
         component="main"
-        height="100vh"
-        position="relative"
-        sx={{
-          backgroundImage: "url(/bg.svg)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+        sx={(theme) => ({ backgroundColor: theme.palette.primary.main })}
       >
+        <AppBar position="absolute">
+          <Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+            >
+              Carbon wallet
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Stack
-          height={1}
-          width={1}
+          height="100vh"
+          width="100vw"
           alignItems="center"
           justifyContent="center"
         >
@@ -86,14 +88,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <Box
       component="main"
-      height="100vh"
-      position="relative"
-      sx={{
-        backgroundImage: "url(/bg.svg)",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      sx={(theme) => ({ backgroundColor: theme.palette.primary.main })}
     >
       <AppBar position="relative">
         <Toolbar>

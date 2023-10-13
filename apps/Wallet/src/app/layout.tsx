@@ -1,8 +1,9 @@
+import { ReactQueryProvider } from "@/components";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "../features/material-ui";
 import "./globals.css";
-import { ReactQueryProvider } from "@/components";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

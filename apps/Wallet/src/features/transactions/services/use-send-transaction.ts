@@ -1,7 +1,9 @@
 import { SafeTransactionBody } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useSendTransaction() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (body: SafeTransactionBody) => {
       return fetch("/api/safe/transaction", {
@@ -9,5 +11,6 @@ export function useSendTransaction() {
         body: JSON.stringify(body),
       });
     },
+    onSuccess: () => setTimeout(() => queryClient.invalidateQueries(), 3000),
   });
 }

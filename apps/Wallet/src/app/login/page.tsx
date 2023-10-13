@@ -20,7 +20,7 @@ export default function Login() {
   const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
   const setBalance = useWalletStore((state) => state.setBalance);
   const web3Auth = useWalletStore((state) => state.web3Auth);
-  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const pathname = usePathname();
   const { push } = useRouter();
 
@@ -30,7 +30,7 @@ export default function Login() {
       await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
         loginProvider: "google",
       });
-      setIsLoggingIn(true)
+      setIsLoggingIn(true);
       const signInInfo = await web3Auth.authenticateUser();
       const userInfo = await web3Auth.getUserInfo();
       const address = await rpc.getAccounts();
@@ -58,21 +58,21 @@ export default function Login() {
 
   if (isLoggingIn) {
     return (
-        <Stack
-          height={1}
-          width={1}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <CircularProgress color="secondary" />
-        </Stack>
+      <Stack
+        height={1}
+        width={1}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <CircularProgress color="secondary" />
+      </Stack>
     );
   }
 
   return (
     <Grid
       container
-      height="100vh"
+      height={1}
     >
       <Grid
         item
@@ -90,17 +90,10 @@ export default function Login() {
         >
           <Box>
             <Typography
-              variant="h2"
-              color="primary.light"
-              fontWeight={700}
-            >
-              Login
-            </Typography>
-            <Typography
-              variant="body2"
+              variant="body1"
               color="primary.light"
             >
-              Use your Google account to access your carbon wallet
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </Typography>
           </Box>
           <Button
@@ -146,8 +139,17 @@ export default function Login() {
             variant="h2"
             fontWeight={300}
             zIndex={2}
+            sx={{ mb: 1 }}
           >
             carbon wallet
+          </Typography>
+          <Typography
+            variant="body1"
+            color="primary.light"
+            sx={{ maxWidth: 500 }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.
           </Typography>
         </Stack>
       </Grid>

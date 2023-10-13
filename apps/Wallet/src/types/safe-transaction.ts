@@ -4,6 +4,10 @@ export type SafeTransactionBody = {
   destination: string;
 };
 
+export type FundUserTransactionBody = {
+  destination: string;
+};
+
 export type AddOwnerTransactionBody = {
   ownerAddress: string;
 }

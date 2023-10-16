@@ -10,6 +10,7 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Link,
   Slide,
   Stack,
   Theme,
@@ -213,6 +214,15 @@ export function ListItems(props: any) {
                     Value:
                   </TableCell>
                   <TableCell align="left">{ethers.utils.formatEther(ethers.BigNumber.from(value))} ETH</TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                  >
+                    Tx link:
+                  </TableCell>
+                  <TableCell align="left"><Link href={`https://goerli.etherscan.io/tx/${id}`} target="_blank" color="secondary">{`https://goerli.etherscan.io/tx/${id}`}</Link></TableCell>
                 </TableRow>
               </TableBody>
             </Table>

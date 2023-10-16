@@ -8,10 +8,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { EXCHANGE_TRANSFER_LIST } from "./constants";
 import { useSendTransaction } from "./services";
+import { ethers } from "ethers";
+import { useGetBalance } from "../balance";
 
 export function SendTransactionForm() {
   const privateKey = useWalletStore((state) => state.privateKey);
   const userInfo = useWalletStore((state) => state.userInfo);
+  const { data: balance = "0", isLoading: isLoadingBalance } = useGetBalance();
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
   const formMethods = useForm<SafeTransactionBody & { tokenType: string }>({
     defaultValues: { pk: privateKey },
@@ -46,7 +49,19 @@ export function SendTransactionForm() {
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap={4}>
+          <Stack gap={1}>
           <Typography variant="overline">Celo Wallet of {userInfo?.name}</Typography>
+            {isLoadingBalance ? (
+              <CircularProgress
+                color="secondary"
+                size={20}
+              />
+            ) : (
+              <Typography variant="body1">
+                Balance: {ethers.utils.formatEther(ethers.BigNumber.from(balance))} ETH
+              </Typography>
+            )}
+          </Stack>
           <FormDropdownInput
             name="destination"
             label="Send to"

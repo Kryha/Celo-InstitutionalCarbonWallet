@@ -235,7 +235,6 @@ export function ListItems(props: any) {
 
 export function TransactionsList() {
   const { data: transactions = [], isLoading: isLoadingTransactions } = useGetTransactions();
-  console.log({ transactions });
 
   if (isLoadingTransactions) {
     return (

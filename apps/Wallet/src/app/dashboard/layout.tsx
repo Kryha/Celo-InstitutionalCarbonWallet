@@ -2,6 +2,7 @@
 
 import { useIsSafeOwner } from "@/features";
 import { useWalletStore } from "@/store";
+import { shortenHashString } from "@/utils";
 import AccountCircle from "@mui/icons-material/AccountCircleOutlined";
 import { CircularProgress, Stack } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -23,6 +24,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const setBalance = useWalletStore((state) => state.setBalance);
   const web3Auth = useWalletStore((state) => state.web3Auth);
   const setWeb3Auth = useWalletStore((state) => state.setWeb3Auth);
+  const userInfo = useWalletStore((state) => state.userInfo);
+  const address = useWalletStore((state) => state.address);
   const { isLoading: isLoadingIsSafeOwner } = useIsSafeOwner();
   const { push } = useRouter();
 
@@ -125,6 +128,28 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
+              <MenuItem disabled>
+                <Stack>
+                  <Typography
+                    color="primary"
+                    gutterBottom
+                  >
+                    Email: {userInfo?.email}
+                  </Typography>
+                  <Typography
+                    color="primary"
+                    gutterBottom
+                  >
+                    Name: {userInfo?.name}
+                  </Typography>
+                  <Typography
+                    color="primary"
+                    gutterBottom
+                  >
+                    Address: {shortenHashString(address)}
+                  </Typography>
+                </Stack>
+              </MenuItem>
               <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
           </div>

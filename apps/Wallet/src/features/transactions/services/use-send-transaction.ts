@@ -13,12 +13,10 @@ export function useSendTransaction() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["balance"] });
-
-      toast.loading("Loading new transactions...", { duration: 5000 });
-
+      toast.loading("Updating dashboard, please wait", { duration: 5000 });
+      
       setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ["transactions"] });
+        queryClient.invalidateQueries();
       }, 5000);
     },
   });

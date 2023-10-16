@@ -127,7 +127,7 @@ export function ListItems(props: any) {
                     >
                       To:
                     </Typography>{" "}
-                    {EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === to)?.label}
+                    {EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === to)?.label || shortenHashString(to)}
                   </Typography>
                 </Stack>
                 <Stack>

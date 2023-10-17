@@ -6,7 +6,7 @@ export const EXCHANGE_TRANSFER_LIST = [
     tokens: [
       {
         name: "NCT",
-        price: 1,
+        price: 0.0008,
         currency: "ETH",
       },
     ],
@@ -18,7 +18,7 @@ export const EXCHANGE_TRANSFER_LIST = [
     tokens: [
       {
         name: "NCT",
-        price: 1,
+        price: 0.0008,
         currency: "ETH",
       },
     ],
@@ -30,7 +30,7 @@ export const EXCHANGE_TRANSFER_LIST = [
     tokens: [
       {
         name: "NCT",
-        price: 1,
+        price: 0.0008,
         currency: "ETH",
       },
     ],

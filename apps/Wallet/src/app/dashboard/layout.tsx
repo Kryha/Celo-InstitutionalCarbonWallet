@@ -114,6 +114,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <AccountCircle />
             </IconButton>
             <Menu
+              disableScrollLock
               id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{

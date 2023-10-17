@@ -3,7 +3,7 @@
 import { EthereumRpc } from "@/features";
 import { useWalletStore } from "@/store";
 import GoogleIcon from "@mui/icons-material/Google";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Link } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -93,7 +93,7 @@ export default function Login() {
               variant="body1"
               color="primary.light"
             >
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Use your trusted Google Single Sign-On to log into the wallet.
             </Typography>
           </Box>
           <Button
@@ -148,8 +148,17 @@ export default function Login() {
             color="primary.light"
             sx={{ maxWidth: 500 }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
+            This is the first web3 wallet designed for institutions to handle environmental credits. This wallet uses a
+            new method called Account Abstraction, which helps make the user experience better by simplifying tasks like
+            logging in through a trusted Single Sign-On (SSO), account recovery, and administrative functions. You can
+            learn more about Account Abstraction here:{" "}
+            <Link
+              href="https://ethereum.org/en/roadmap/account-abstraction/"
+              target="_blank"
+              color="secondary"
+            >
+              Account Abstraction
+            </Link>
           </Typography>
         </Stack>
       </Grid>

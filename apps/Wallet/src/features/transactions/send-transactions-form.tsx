@@ -50,14 +50,14 @@ export function SendTransactionForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap={4}>
           <Stack gap={1}>
-            <Typography variant="overline">Celo Wallet of {companyName}</Typography>
+            <Typography variant="overline" color="primary.light">Celo Wallet of {companyName}</Typography>
             {isLoadingBalance ? (
               <CircularProgress
                 color="secondary"
                 size={20}
               />
             ) : (
-              <Typography variant="body1">
+              <Typography variant="body1" color="primary.light">
                 Balance: {ethers.utils.formatEther(ethers.BigNumber.from(balance))} ETH
               </Typography>
             )}

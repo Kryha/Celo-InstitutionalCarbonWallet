@@ -33,10 +33,11 @@ export function SendTransactionForm() {
   const exchange = EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === destination);
   const tokenTypeOptions = exchange?.tokens.map((token) => ({ label: token.name, value: token.name })) || [];
   const companyName = process.env.NEXT_PUBLIC_company_name!;
+  const tokenValue = amount ? (Number(amount) * (exchange?.tokens[0].price || 0)).toFixed(8) : 0
 
   const onSubmit = (data: SafeTransactionBody) =>
     sendTransaction(
-      { pk: data.pk, destination: data.destination, value: String(data.amount) },
+      { pk: data.pk, destination: data.destination, amount: String(tokenValue) },
       {
         onSuccess: () => {
           toast.success("Successfully sent transaction!");
@@ -105,7 +106,7 @@ export function SendTransactionForm() {
                   />
                   <TextField
                     label="Value"
-                    value={amount ? (Number(amount) * (exchange?.tokens[0].price || 0)).toFixed(8) : 0}
+                    value={tokenValue}
                     disabled
                     InputProps={{ endAdornment: <InputAdornment position="end">ETH</InputAdornment> }}
                   />

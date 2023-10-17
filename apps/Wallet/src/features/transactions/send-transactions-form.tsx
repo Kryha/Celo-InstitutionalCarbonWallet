@@ -36,7 +36,7 @@ export function SendTransactionForm() {
 
   const onSubmit = (data: SafeTransactionBody) =>
     sendTransaction(
-      { pk: data.pk, destination: data.destination, amount: String(data.amount) },
+      { pk: data.pk, destination: data.destination, value: String(data.amount) },
       {
         onSuccess: () => {
           toast.success("Successfully sent transaction!");

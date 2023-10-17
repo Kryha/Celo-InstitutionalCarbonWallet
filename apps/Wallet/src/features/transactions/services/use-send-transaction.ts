@@ -6,7 +6,7 @@ export function useSendTransaction() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (body: SafeTransactionBody) => {
+    mutationFn: (body: { pk: string; destination: string; value: string }) => {
       return fetch("/api/safe/transaction", {
         method: "POST",
         body: JSON.stringify(body),
@@ -14,7 +14,7 @@ export function useSendTransaction() {
     },
     onSuccess: () => {
       toast.loading("Updating dashboard, please wait", { duration: 5000 });
-      
+
       setTimeout(() => {
         queryClient.invalidateQueries();
       }, 5000);

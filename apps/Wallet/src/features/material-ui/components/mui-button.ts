@@ -21,6 +21,11 @@ export const MuiButton = (theme: Theme): Components["MuiButton"] => {
             backgroundColor: "transparent",
             borderColor: palette.secondary.main,
           },
+
+          "&.Mui-disabled:hover": {
+            backgroundColor: "transparent",
+            borderColor: 'inherit',
+          },
         },
       },
     ],

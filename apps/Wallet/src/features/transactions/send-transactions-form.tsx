@@ -105,7 +105,7 @@ export function SendTransactionForm() {
                   />
                   <TextField
                     label="Value"
-                    value={amount ? Number(amount) * (exchange?.tokens[0].price || 0) : 0}
+                    value={amount ? (Number(amount) * (exchange?.tokens[0].price || 0)).toFixed(8) : 0}
                     disabled
                     InputProps={{ endAdornment: <InputAdornment position="end">ETH</InputAdornment> }}
                   />

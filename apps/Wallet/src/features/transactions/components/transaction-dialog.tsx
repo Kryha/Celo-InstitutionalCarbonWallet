@@ -29,6 +29,7 @@ export function TransactionDialog(props: TransactionDialogProps) {
         onClose={handleClickOpen}
         open={open}
         TransitionComponent={Transition}
+        disableScrollLock
       >
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>

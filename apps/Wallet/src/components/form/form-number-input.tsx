@@ -24,7 +24,7 @@ export const FormNumberInput: React.FC<FormNumberInputProps> = ({
     name,
     rules,
   });
-  const { onChange, ...rest } = field;
+  const { onChange, onBlur } = field;
   const value = transform?.input ? transform.input(field.value) : field.value;
 
   const handleOnChange = (values: NumberFormatValues) => {
@@ -37,7 +37,8 @@ export const FormNumberInput: React.FC<FormNumberInputProps> = ({
 
   return (
     <NumericFormat
-      {...rest}
+      onBlur={onBlur}
+      name={name}
       label={label}
       value={value}
       customInput={TextField}

@@ -16,7 +16,7 @@ export function SendTransactionForm() {
   const { data: balance = "0", isLoading: isLoadingBalance } = useGetBalance();
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
   const formMethods = useForm<SafeTransactionBody & { tokenType: string }>({
-    defaultValues: { pk: privateKey },
+    defaultValues: { pk: privateKey, destination: "", tokenType: "" },
     mode: "onBlur",
   });
   const {

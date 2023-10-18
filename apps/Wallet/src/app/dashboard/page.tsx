@@ -1,12 +1,30 @@
 "use client";
 
-import { SendTransactionForm } from "@/features";
-import Box from "@mui/material/Box";
+import { SendTransactionForm, TransactionsList } from "@/features";
+import { Grid } from "@mui/material";
 
 export default function Dashboard() {
   return (
-    <Box p={4}>
-      <SendTransactionForm />
-    </Box>
+    <Grid
+      container
+      py={4}
+      px={{xs: 1,sm: 2, md: 4}}
+      spacing={4}
+    >
+      <Grid
+        item
+        xs={12}
+        md={4}
+      >
+        <SendTransactionForm />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        md={8}
+      >
+        <TransactionsList />
+      </Grid>
+    </Grid>
   );
 }

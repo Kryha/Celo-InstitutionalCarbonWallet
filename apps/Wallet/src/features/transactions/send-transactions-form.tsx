@@ -1,68 +1,123 @@
 "use client";
 
-import { FormDropdownInput, FormTextInput } from "@/components";
+import { FormDropdownInput, FormNumberInput } from "@/components";
 import { useWalletStore } from "@/store";
 import { SafeTransactionBody } from "@/types";
-import { Button, CircularProgress, Stack } from "@mui/material";
+import { Button, CircularProgress, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { EXCHANGE_TRANSFER_LIST } from "./constants";
 import { useSendTransaction } from "./services";
+import { ethers } from "ethers";
+import { useGetBalance } from "../balance";
 
 export function SendTransactionForm() {
   const privateKey = useWalletStore((state) => state.privateKey);
   const userInfo = useWalletStore((state) => state.userInfo);
+  const { data: balance = "0", isLoading: isLoadingBalance } = useGetBalance();
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
-  const formMethods = useForm<SafeTransactionBody>({
-    defaultValues: {},
+  const formMethods = useForm<SafeTransactionBody & { tokenType: string }>({
+    defaultValues: { pk: privateKey },
     mode: "onBlur",
   });
   const {
     handleSubmit,
     control,
-    formState: { isSubmitting, isLoading, isValidating },
+    watch,
+    reset,
+    formState: { isSubmitting, isLoading, isValidating, isValid },
   } = formMethods;
   const isDisabled = isSubmitting || isLoading || isValidating || isSendingTransaction;
+  const amount = watch("amount");
+  const tokenType = watch("tokenType");
+  const destination = watch("destination");
+  const exchange = EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === destination);
+  const tokenTypeOptions = exchange?.tokens.map((token) => ({ label: token.name, value: token.name })) || [];
 
-  const onSubmit = (data: SafeTransactionBody) => sendTransaction(data);
+  const onSubmit = (data: SafeTransactionBody) =>
+    sendTransaction(
+      { pk: data.pk, destination: data.destination, amount: String(data.amount) },
+      {
+        onSuccess: () => {
+          toast.success("Successfully sent transaction!");
+          reset({ pk: privateKey }, { keepValues: false });
+        },
+      }
+    );
 
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack
-          gap={4}
-          maxWidth={300}
-        >
-          <FormDropdownInput
-            name="pk"
-            label="Send from"
-            control={control}
-            options={[{ label: userInfo?.name || "", value: privateKey }]}
-            formControlProps={{ color: "secondary" }}
-            rules={{ required: { value: true, message: "This field is required" } }}
-          />
+        <Stack gap={4}>
+          <Stack gap={1}>
+            <Typography variant="overline">Celo Wallet of {userInfo?.name}</Typography>
+            {isLoadingBalance ? (
+              <CircularProgress
+                color="secondary"
+                size={20}
+              />
+            ) : (
+              <Typography variant="body1">
+                Balance: {ethers.utils.formatEther(ethers.BigNumber.from(balance))} ETH
+              </Typography>
+            )}
+          </Stack>
           <FormDropdownInput
             name="destination"
-            label="Send to"
+            label="Buy from"
             control={control}
             options={EXCHANGE_TRANSFER_LIST}
-            formControlProps={{ color: "secondary" }}
+            formControlProps={{ color: "secondary", disabled: isDisabled }}
             rules={{ required: { value: true, message: "This field is required" } }}
           />
-          <FormTextInput
-            name="amount"
-            label="Amount"
-            control={control}
-            textFieldProps={{ color: "secondary" }}
-            rules={{
-              required: { value: true, message: "This field is required" },
-              validate: (value: string) => value === "0" || "Amount must be more than 0",
-            }}
-          />
+          {destination && (
+            <>
+              <FormDropdownInput
+                name="tokenType"
+                label="Token type"
+                control={control}
+                options={tokenTypeOptions}
+                formControlProps={{ color: "secondary", disabled: isDisabled }}
+                rules={{ required: { value: true, message: "This field is required" } }}
+              />
+              {tokenType && (
+                <>
+                  <TextField
+                    label="Price"
+                    value={exchange?.tokens[0].price}
+                    disabled
+                  />
+                  <FormNumberInput
+                    name="amount"
+                    label="Amount"
+                    control={control}
+                    textFieldProps={{
+                      color: "secondary",
+                      disabled: isDisabled,
+                      InputProps: {
+                        endAdornment: <InputAdornment position="end">NCT</InputAdornment>,
+                      },
+                    }}
+                    rules={{
+                      required: { value: true, message: "This field is required" },
+                      validate: (value: number) => value !== 0 || "Amount must be more than 0",
+                    }}
+                  />
+                  <TextField
+                    label="Value"
+                    value={amount ? Number(amount) * (exchange?.tokens[0].price || 0) : 0}
+                    disabled
+                    InputProps={{ endAdornment: <InputAdornment position="end">ETH</InputAdornment> }}
+                  />
+                </>
+              )}
+            </>
+          )}
           <Button
             variant="outlined"
             fullWidth
             type="submit"
-            disabled={isDisabled}
+            disabled={isDisabled || !isValid}
             endIcon={
               isDisabled ? (
                 <CircularProgress
@@ -72,7 +127,7 @@ export function SendTransactionForm() {
               ) : null
             }
           >
-            Send
+            Buy{amount ? ` ${amount} ${tokenType}` : ""}
           </Button>
         </Stack>
       </form>

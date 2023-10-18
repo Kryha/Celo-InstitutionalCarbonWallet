@@ -4,11 +4,12 @@ import TextField from "@mui/material/TextField";
 import { useController } from "react-hook-form";
 import { FormInputBase } from "./types";
 
-export const FormTextInput: React.FC<FormInputBase> = ({ control, name, label, defaultValue, textFieldProps }) => {
+export const FormTextInput: React.FC<FormInputBase> = ({ rules,control, name, label, defaultValue, textFieldProps }) => {
   const { field, fieldState } = useController({
     control,
     defaultValue,
     name,
+    rules,
   });
 
   return (

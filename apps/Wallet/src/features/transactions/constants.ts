@@ -1,3 +1,5 @@
+export const NCT_TOKEN_PRICE = 0.0008;
+
 export const EXCHANGE_TRANSFER_LIST = [
   {
     label: "Carbon Trade eXchange",
@@ -6,7 +8,7 @@ export const EXCHANGE_TRANSFER_LIST = [
     tokens: [
       {
         name: "NCT",
-        price: 0.0008,
+        price: NCT_TOKEN_PRICE,
         currency: "ETH",
       },
     ],
@@ -18,7 +20,7 @@ export const EXCHANGE_TRANSFER_LIST = [
     tokens: [
       {
         name: "NCT",
-        price: 0.0008,
+        price: NCT_TOKEN_PRICE,
         currency: "ETH",
       },
     ],
@@ -30,7 +32,7 @@ export const EXCHANGE_TRANSFER_LIST = [
     tokens: [
       {
         name: "NCT",
-        price: 0.0008,
+        price: NCT_TOKEN_PRICE,
         currency: "ETH",
       },
     ],

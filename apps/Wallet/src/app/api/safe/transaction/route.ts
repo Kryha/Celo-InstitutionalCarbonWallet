@@ -1,5 +1,5 @@
 import { SafeTransactionBody } from "@/types/safe-transaction";
-import { createTransaction } from "../utils";
+import { createTransaction } from "../util/utils";
 
 
 export async function POST(req: Request, res: Response): Promise<Response> {

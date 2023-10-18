@@ -25,6 +25,9 @@ export default function Login() {
   const { push } = useRouter();
 
   const login = async () => {
+    const x = await (await testUser()).json();
+    console.log("KIJK", x);
+
     if (web3Auth && web3Auth.provider) {
       const rpc = new EthereumRpc(web3Auth.provider);
       await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
@@ -55,6 +58,14 @@ export default function Login() {
       localStorage.setItem("openlogin_store", JSON.stringify({ sessionId: "" }));
     }
   }, [web3Auth, pathname]);
+
+  const testUser = async () => {
+    const x = await fetch("/api/users?role=ADMIN", {
+      method: "GET",
+    });
+
+    return x;
+  };
 
   if (isLoggingIn) {
     return (

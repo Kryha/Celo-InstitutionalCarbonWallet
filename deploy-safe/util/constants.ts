@@ -26,3 +26,6 @@ export const safeAmountUnitCelo = `celo`;
 // Transfer funds from safe
 export const transferAmount = `0.005`;
 export const safeThreshold = 1;
+
+// Allowance module address
+export const allowanceModuleAddress = "0xE936FA91524e416348D0120fE1cDd228B1413791";

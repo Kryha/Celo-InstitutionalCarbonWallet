@@ -5,11 +5,13 @@ import {
   etherscanUrl_GOERLI,
   explorerUrlAddressTx_ALFAJORES,
   explorerUrlAddress_ALFAJORES,
-  fundSafeAmount, RPC_URL_ALFAJORES,
-  RPC_URL_GOERLI, safeAmountUnitGoerli,
+  fundSafeAmount,
+  RPC_URL_ALFAJORES,
+  RPC_URL_GOERLI,
+  safeAmountUnitGoerli,
   safeAppUrl_ALFAJORES,
   safeAppUrl_GOERLI,
-  safeThreshold
+  safeThreshold,
 } from "./util/constants";
 import { getEthersAdapter, getProvider, getSigner } from "./util/safe-wrappers";
 import { generateSaltNonce, writeToJson } from "./util/update-config";
@@ -20,8 +22,9 @@ async function main() {
   const provider = getProvider(RPC_URL_GOERLI);
 
   const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
-  const owner2Signer = getSigner(process.env.OWNER_2_PRIVATE_KEY_GOERLI!, provider);
-  const owner3Signer = getSigner(process.env.OWNER_3_PRIVATE_KEY_GOERLI!, provider);
+  // Commenting out other signers for Safe with 1 owner
+  // const owner2Signer = getSigner(process.env.OWNER_2_PRIVATE_KEY_GOERLI!, provider);
+  // const owner3Signer = getSigner(process.env.OWNER_3_PRIVATE_KEY_GOERLI!, provider);
 
   const ethAdapterOwner1 = getEthersAdapter(owner1Signer);
 
@@ -41,7 +44,6 @@ async function main() {
   const safeAddressData = { safeAddress: safeAddress };
 
   await writeToJson(safeAddressData);
-  
 
   if (provider.connection.url === RPC_URL_GOERLI) {
     console.log("Your Safe has been deployed to GOERLI:");

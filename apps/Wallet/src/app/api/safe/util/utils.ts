@@ -3,6 +3,27 @@ import { ethers } from "ethers";
 import SafeApiKit from "@safe-global/api-kit";
 import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
 import { SafeTransactionBody } from "@/types";
+import fs from "fs";
+import { etherscanId, network } from "./constants";
+
+export function getSigner() {
+  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
+  return new ethers.Wallet(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
+}
+
+export function getEtherscanSigner(pk: string) {
+  const provider = ethers.getDefaultProvider(network, {
+    etherscan: etherscanId,
+  });
+  return new ethers.Wallet(pk, provider);
+}
+
+export async function getModuleABI(): Promise<any> {
+  const filePath = "../utils/abi.json";
+  const data = await fs.promises.readFile(filePath, "utf8");
+  const parsedData = JSON.parse(data);
+  return parsedData;
+}
 
 function getEthAdapter(pk?: string): EthersAdapter {
   const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);

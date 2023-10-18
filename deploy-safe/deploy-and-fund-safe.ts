@@ -1,17 +1,17 @@
 import { SafeAccountConfig, SafeFactory } from "@safe-global/protocol-kit";
 import { ethers } from "ethers";
 import {
+  RPC_URL_ALFAJORES,
+  RPC_URL_GOERLI,
   etherscanUrlTx_GOERLI,
   etherscanUrl_GOERLI,
   explorerUrlAddressTx_ALFAJORES,
   explorerUrlAddress_ALFAJORES,
   fundSafeAmount,
-  RPC_URL_ALFAJORES,
-  RPC_URL_GOERLI,
   safeAmountUnitGoerli,
   safeAppUrl_ALFAJORES,
   safeAppUrl_GOERLI,
-  safeThreshold,
+  safeThreshold
 } from "./util/constants";
 import { getEthersAdapter, getProvider, getSigner } from "./util/safe-wrappers";
 import { generateSaltNonce, writeToJson } from "./util/update-config";
@@ -22,16 +22,15 @@ async function main() {
   const provider = getProvider(RPC_URL_GOERLI);
 
   const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
-  // Commenting out other signers for Safe with 1 owner
-  // const owner2Signer = getSigner(process.env.OWNER_2_PRIVATE_KEY_GOERLI!, provider);
-  // const owner3Signer = getSigner(process.env.OWNER_3_PRIVATE_KEY_GOERLI!, provider);
+  const owner2Signer = getSigner(process.env.OWNER_2_PRIVATE_KEY_GOERLI!, provider);
+  const owner3Signer = getSigner(process.env.OWNER_3_PRIVATE_KEY_GOERLI!, provider);
 
   const ethAdapterOwner1 = getEthersAdapter(owner1Signer);
 
   const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
 
   const safeAccountConfig: SafeAccountConfig = {
-    owners: [await owner1Signer.getAddress()],
+    owners: [await owner1Signer.getAddress(), await owner2Signer.getAddress(), await owner3Signer.getAddress()],
     threshold: safeThreshold,
   };
 

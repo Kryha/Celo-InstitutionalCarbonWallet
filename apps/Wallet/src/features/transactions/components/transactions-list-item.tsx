@@ -21,6 +21,11 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
   const { id, date, from, to, value } = props;
   const [open, setOpen] = useState(false);
   const isBiggerThanSmScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
+  const exchange = EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === to);
+  const toParsed = exchange?.label || shortenHashString(to);
+  const tokenPrice = exchange?.tokens[0].price || 0;
+  const valueNumber = Number(ethers.utils.formatEther(ethers.BigNumber.from(value)));
+  const valueParsed = (valueNumber / tokenPrice).toFixed(1);
 
   const handleClickOpen = () => {
     setOpen(!open);
@@ -88,11 +93,11 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
                     >
                       To:
                     </Typography>{" "}
-                    {EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === to)?.label || shortenHashString(to)}
+                    {toParsed}
                   </Typography>
                 </Stack>
                 <Stack>
-                  <Chip label={`${ethers.utils.formatEther(ethers.BigNumber.from(value))} ETH`} />
+                  <Chip label={`${valueParsed} NCT`} />
                 </Stack>
               </Stack>
             }

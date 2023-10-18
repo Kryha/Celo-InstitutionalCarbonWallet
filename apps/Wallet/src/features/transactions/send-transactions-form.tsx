@@ -4,16 +4,15 @@ import { FormDropdownInput, FormNumberInput } from "@/components";
 import { useWalletStore } from "@/store";
 import { SafeTransactionBody } from "@/types";
 import { Button, CircularProgress, InputAdornment, Stack, TextField, Typography } from "@mui/material";
+import { ethers } from "ethers";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useGetBalance } from "../balance";
 import { EXCHANGE_TRANSFER_LIST } from "./constants";
 import { useSendTransaction } from "./services";
-import { ethers } from "ethers";
-import { useGetBalance } from "../balance";
 
 export function SendTransactionForm() {
   const privateKey = useWalletStore((state) => state.privateKey);
-  const userInfo = useWalletStore((state) => state.userInfo);
   const { data: balance = "0", isLoading: isLoadingBalance } = useGetBalance();
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
   const formMethods = useForm<SafeTransactionBody & { tokenType: string }>({
@@ -33,10 +32,12 @@ export function SendTransactionForm() {
   const destination = watch("destination");
   const exchange = EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === destination);
   const tokenTypeOptions = exchange?.tokens.map((token) => ({ label: token.name, value: token.name })) || [];
+  const companyName = process.env.NEXT_PUBLIC_company_name!;
+  const tokenValue = amount ? (Number(amount) * (exchange?.tokens[0].price || 0)).toFixed(8) : 0
 
   const onSubmit = (data: SafeTransactionBody) =>
     sendTransaction(
-      { pk: data.pk, destination: data.destination, amount: String(data.amount) },
+      { pk: data.pk, destination: data.destination, amount: String(tokenValue) },
       {
         onSuccess: () => {
           toast.success("Successfully sent transaction!");
@@ -50,14 +51,14 @@ export function SendTransactionForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap={4}>
           <Stack gap={1}>
-            <Typography variant="overline">Celo Wallet of {userInfo?.name}</Typography>
+            <Typography variant="overline" color="primary.light">Celo Wallet of {companyName}</Typography>
             {isLoadingBalance ? (
               <CircularProgress
                 color="secondary"
                 size={20}
               />
             ) : (
-              <Typography variant="body1">
+              <Typography variant="body1" color="primary.light">
                 Balance: {ethers.utils.formatEther(ethers.BigNumber.from(balance))} ETH
               </Typography>
             )}
@@ -105,7 +106,7 @@ export function SendTransactionForm() {
                   />
                   <TextField
                     label="Value"
-                    value={amount ? Number(amount) * (exchange?.tokens[0].price || 0) : 0}
+                    value={tokenValue}
                     disabled
                     InputProps={{ endAdornment: <InputAdornment position="end">ETH</InputAdornment> }}
                   />

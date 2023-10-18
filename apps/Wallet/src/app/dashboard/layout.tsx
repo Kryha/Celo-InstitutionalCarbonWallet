@@ -1,6 +1,6 @@
 "use client";
 
-import { useIsSafeOwner } from "@/features";
+import { useIsSafeOwner, useLogout } from "@/features";
 import { useWalletStore } from "@/store";
 import { shortenHashString } from "@/utils";
 import AccountCircle from "@mui/icons-material/AccountCircleOutlined";
@@ -17,13 +17,8 @@ import { ReactNode, useEffect, useState } from "react";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const setAddress = useWalletStore((state) => state.setAddress);
-  const setPrivateKey = useWalletStore((state) => state.setPrivateKey);
-  const setUserInfo = useWalletStore((state) => state.setUserInfo);
-  const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
-  const setBalance = useWalletStore((state) => state.setBalance);
+  const logout = useLogout();
   const web3Auth = useWalletStore((state) => state.web3Auth);
-  const setWeb3Auth = useWalletStore((state) => state.setWeb3Auth);
   const userInfo = useWalletStore((state) => state.userInfo);
   const address = useWalletStore((state) => state.address);
   const { isLoading: isLoadingIsSafeOwner } = useIsSafeOwner();
@@ -37,20 +32,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     setAnchorEl(null);
   };
 
-  const logout = async () => {
-    if (web3Auth) {
-      await web3Auth.logout();
-      setWeb3Auth(null);
-      setSignInInfo(null);
-      setUserInfo(null);
-      setAddress("");
-      setBalance("");
-      setPrivateKey("");
-      handleClose();
-      push("/login");
-    } else {
-      throw new Error("web3Auth not initialized yet");
-    }
+  const handleOnLogoutClick = async () => {
+    await logout();
+    handleClose();
+    push("/login");
   };
 
   useEffect(() => {
@@ -114,6 +99,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <AccountCircle />
             </IconButton>
             <Menu
+              disableScrollLock
               id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
@@ -150,7 +136,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   </Typography>
                 </Stack>
               </MenuItem>
-              <MenuItem onClick={logout}>Logout</MenuItem>
+              <MenuItem onClick={handleOnLogoutClick}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>

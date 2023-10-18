@@ -21,6 +21,7 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
   const { id, date, from, to, value } = props;
   const [open, setOpen] = useState(false);
   const isBiggerThanSmScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
+  const exchange = EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === to);
 
   const handleClickOpen = () => {
     setOpen(!open);
@@ -73,8 +74,8 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
                       fontWeight="bold"
                       component="span"
                     >
-                      From:
-                    </Typography>{" "}
+                      From:{" "}
+                    </Typography>
                     {shortenHashString(from)}
                   </Typography>
                   <Typography
@@ -86,9 +87,9 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
                       fontWeight="bold"
                       component="span"
                     >
-                      To:
-                    </Typography>{" "}
-                    {EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === to)?.label || shortenHashString(to)}
+                      To:{" "}
+                    </Typography>
+                    {exchange?.label || shortenHashString(to)}
                   </Typography>
                 </Stack>
                 <Stack>

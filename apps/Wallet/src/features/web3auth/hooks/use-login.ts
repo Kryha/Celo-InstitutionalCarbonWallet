@@ -32,6 +32,6 @@ export function useLogin() {
       throw new Error("web3Auth or provider is not initialized yet");
     }
   };
-  
+
   return login;
 }

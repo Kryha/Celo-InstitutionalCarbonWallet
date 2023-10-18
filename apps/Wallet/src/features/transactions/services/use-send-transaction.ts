@@ -17,7 +17,7 @@ export function useSendTransaction() {
       
       setTimeout(() => {
         queryClient.invalidateQueries();
-      }, 5000);
+      }, 3000);
     },
     onError: (error: Error) => {
       toast.error(`There was a problem: ${error.message}`, { duration: 5000 });

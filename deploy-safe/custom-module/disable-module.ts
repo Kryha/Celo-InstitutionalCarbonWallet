@@ -3,7 +3,7 @@ import { createSafe, getEthersAdapter, getProvider, getSigner } from "../util/sa
 import { getSafeAddress } from "../util/update-config";
 require("dotenv").config();
 
-async function enableModule(moduleAddress: string) {
+async function disableModule(moduleAddress: string) {
   // Set RPC URL here  (Goerli or Alfajores)
   const provider = getProvider(RPC_URL_GOERLI);
 
@@ -28,4 +28,4 @@ async function enableModule(moduleAddress: string) {
   console.log("Updated list of allowed modules: ", updatedListOfModules);
 }
 
-enableModule(rbacModuleAddress);
+disableModule(rbacModuleAddress);

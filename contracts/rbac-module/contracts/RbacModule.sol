@@ -32,16 +32,16 @@ contract RbacModule is SignatureDecoder {
 
     event AddDelegate(address indexed safe, address delegate);
     event RemoveDelegate(address indexed safe, address delegate);
-    event ExecuteAllowanceTransfer(address indexed safe, address delegate, address to, uint96 value);
+    event ExecuteTransfer(address indexed safe, address delegate, address to, uint96 value);
 
-    /// @dev Allows to use the allowance to perform a transfer.
+    /// @dev Allows the user to perform a transfer.
     /// @param safe The Safe whose funds should be used.
     /// @param to Address that should receive the tokens.
     /// @param amount Amount that should be transferred.
     function executeTransfer(GnosisSafe safe, address payable to, uint96 amount) public {
         require(isDelegate(safe, msg.sender), "msg.sender is not a delegate");
         transfer(safe, to, amount);
-        emit ExecuteAllowanceTransfer(address(safe), msg.sender, to, amount);
+        emit ExecuteTransfer(address(safe), msg.sender, to, amount);
     }
 
     function isDelegate(GnosisSafe safe, address delegate) public view returns (bool) {

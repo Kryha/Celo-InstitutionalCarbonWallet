@@ -1,4 +1,4 @@
-import { allowanceModuleAddress, RPC_URL_GOERLI } from "../util/constants";
+import { rbacModuleAddress, RPC_URL_GOERLI } from "../util/constants";
 import { createSafe, getEthersAdapter, getProvider, getSigner } from "../util/safe-wrappers";
 import { getSafeAddress } from "../util/update-config";
 require("dotenv").config();
@@ -28,4 +28,4 @@ async function enableModule(moduleAddress: string) {
   console.log("Updated list of allowed modules: ", updatedListOfModules);
 }
 
-enableModule(allowanceModuleAddress);
+enableModule(rbacModuleAddress);

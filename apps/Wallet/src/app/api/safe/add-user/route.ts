@@ -1,7 +1,7 @@
 import { AddUserTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
-import { allowanceModuleAddress } from "../util/constants";
+import { rbacModuleAddress } from "../util/constants";
 import { getModuleABI, getSafe, getSigner } from "../util/utils";
 
 export async function POST(req: Request): Promise<Response> {
@@ -9,7 +9,7 @@ export async function POST(req: Request): Promise<Response> {
 
   const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_GOERLI);
 
-  const callData = await getAddUserCallData(allowanceModuleAddress, body.userAddress);
+  const callData = await getAddUserCallData(rbacModuleAddress, body.userAddress);
 
   if (!callData) {
     throw new Error("Could not generate call data");
@@ -18,7 +18,7 @@ export async function POST(req: Request): Promise<Response> {
   const ethAmount = ethers.utils.parseUnits("0", "ether").toString();
 
   const safeTransactionData: SafeTransactionDataPartial = {
-    to: allowanceModuleAddress,
+    to: rbacModuleAddress,
     data: callData,
     value: ethAmount,
   };

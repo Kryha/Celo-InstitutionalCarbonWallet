@@ -1,7 +1,7 @@
 import { RemoveUserTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
-import { allowanceModuleAddress } from "../util/constants";
+import { rbacModuleAddress } from "../util/constants";
 import { getModuleABI, getSafe, getSigner } from "../util/utils";
 
 export async function POST(req: Request): Promise<Response> {
@@ -9,7 +9,7 @@ export async function POST(req: Request): Promise<Response> {
 
   const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_GOERLI);
 
-  const callData = await getRemoveUserCallData(allowanceModuleAddress, body.userAddress);
+  const callData = await getRemoveUserCallData(rbacModuleAddress, body.userAddress);
 
   if (!callData) {
     throw new Error("Could not generate call data");
@@ -18,7 +18,7 @@ export async function POST(req: Request): Promise<Response> {
   const ethAmount = ethers.utils.parseUnits("0", "ether").toString();
 
   const safeTransactionData: SafeTransactionDataPartial = {
-    to: allowanceModuleAddress,
+    to: rbacModuleAddress,
     data: callData,
     value: ethAmount,
   };
@@ -37,6 +37,6 @@ async function getRemoveUserCallData(allowanceModuleAddress: string, delegateAdd
   const signer = getSigner();
   const abi = await getModuleABI();
   const moduleContract = new ethers.Contract(allowanceModuleAddress, abi, signer);
-  const tx = await moduleContract.populateTransaction.removeDelegate(delegateAddress, true);
+  const tx = await moduleContract.populateTransaction.removeDelegate(delegateAddress);
   return tx.data;
 }

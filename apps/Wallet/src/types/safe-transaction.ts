@@ -16,13 +16,8 @@ export type RemoveUserTransactionBody = {
   userAddress: string;
 }
 
-export type SetAllowanceTransactionBody = {
-  userAddress: string;
-}
-
 export type ExecuteUserTransactionBody = {
   pk: string;
   amount: string;
   destination: string;
-  userAddress: string;
 }

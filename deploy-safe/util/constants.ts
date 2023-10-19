@@ -19,7 +19,7 @@ export const safeAppUrl_ALFAJORES = `https://safe.celo.org/home?safe=alfajores`;
 export const txDestination = "0xfBC93d17E251b35C7eB3D220F368A7aC9521fb37";
 
 // Fund Safe amount goerli
-export const fundSafeAmount = `0.02`;
+export const fundSafeAmount = `0.03`;
 export const safeAmountUnitGoerli = `ether`;
 export const safeAmountUnitCelo = `celo`;
 
@@ -27,5 +27,5 @@ export const safeAmountUnitCelo = `celo`;
 export const transferAmount = `0.005`;
 export const safeThreshold = 1;
 
-// Allowance module address
-export const allowanceModuleAddress = "0xE936FA91524e416348D0120fE1cDd228B1413791";
+// rbac module address
+export const rbacModuleAddress = "0xfc3c71d00d522f8a2537523b22f54405011257ff";

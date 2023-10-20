@@ -2,7 +2,9 @@ import { RemoveUserTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { rbacModuleAddress } from "../util/constants";
-import { getModuleABI, getSafe, getSigner } from "../util/utils";
+import { getSafe, getSigner } from "../util/utils";
+import { Rbac } from "../util/typechain/types/config/abis";
+import rbac from "../util/typechain/abis/rbac.json"
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as RemoveUserTransactionBody;
@@ -35,8 +37,7 @@ export async function POST(req: Request): Promise<Response> {
 
 async function getRemoveUserCallData(allowanceModuleAddress: string, delegateAddress: string) {
   const signer = getSigner();
-  const abi = await getModuleABI();
-  const moduleContract = new ethers.Contract(allowanceModuleAddress, abi, signer);
+  const moduleContract = new ethers.Contract(allowanceModuleAddress, rbac, signer) as Rbac;
   const tx = await moduleContract.populateTransaction.removeDelegate(delegateAddress);
   return tx.data;
 }

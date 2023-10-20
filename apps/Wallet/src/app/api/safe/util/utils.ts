@@ -18,13 +18,6 @@ export function getEtherscanSigner(pk: string) {
   return new ethers.Wallet(pk, provider);
 }
 
-export async function getModuleABI(): Promise<any> {
-  const filePath = "../utils/abi.json";
-  const data = await fs.promises.readFile(filePath, "utf8");
-  const parsedData = JSON.parse(data);
-  return parsedData;
-}
-
 function getEthAdapter(pk?: string): EthersAdapter {
   const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 

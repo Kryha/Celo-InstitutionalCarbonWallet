@@ -3,7 +3,6 @@ import { ethers } from "ethers";
 import SafeApiKit from "@safe-global/api-kit";
 import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
 import { SafeTransactionBody } from "@/types";
-import fs from "fs";
 import { etherscanId, network } from "./constants";
 
 export function getSigner() {

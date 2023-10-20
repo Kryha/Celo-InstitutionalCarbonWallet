@@ -1,7 +1,6 @@
 import { AddUserTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
-import { rbacModuleAddress } from "../util/constants";
 import { getSafe, getSigner } from "../util/utils";
 import { Rbac } from "../util/typechain/types/config/abis";
 import rbac from "../util/typechain/abis/rbac.json";
@@ -10,6 +9,7 @@ export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as AddUserTransactionBody;
 
   const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_GOERLI);
+  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
 
   const callData = await getAddUserCallData(rbacModuleAddress, body.userAddress);
 

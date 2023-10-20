@@ -1,6 +1,5 @@
 import { ExecuteUserTransactionBody } from "@/types";
 import { ethers } from "ethers";
-import { rbacModuleAddress } from "../util/constants";
 import { getEtherscanSigner } from "../util/utils";
 import { Rbac } from "../util/typechain/types/config/abis";
 import rbac from "../util/typechain/abis/rbac.json";
@@ -8,6 +7,7 @@ import rbac from "../util/typechain/abis/rbac.json";
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as ExecuteUserTransactionBody;
 
+  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
   const signer = getEtherscanSigner(body.pk);
   const moduleContract = new ethers.Contract(rbacModuleAddress, rbac, signer) as Rbac;
   const safe = process.env.SAFE_ADDRESS!;

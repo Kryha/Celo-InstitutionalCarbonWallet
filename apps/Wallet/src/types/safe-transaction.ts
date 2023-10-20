@@ -16,6 +16,10 @@ export type AddUserTransactionBody = {
   userAddress: string;
 }
 
+export type IsUserTransactionBody = {
+  userAddress: string;
+}
+
 export type RemoveUserTransactionBody = {
   userAddress: string;
 }

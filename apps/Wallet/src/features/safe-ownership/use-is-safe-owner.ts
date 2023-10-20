@@ -12,7 +12,6 @@ export function useIsSafeOwner() {
   const balance = useWalletStore((state) => state.balance);
   const isSafeOwner = useWalletStore((state) => state.isSafeOwner);
   const setIsSafeOwner = useWalletStore((state) => state.setIsSafeOwner);
-
   return useQuery({
     queryKey: ["isOwner", address],
     queryFn: () => fetch(`/api/safe/owner/${address}`).then((res) => res.json()),

@@ -1,50 +1,28 @@
 "use client";
 
-import { EthereumRpc } from "@/features";
+import { useLogin } from "@/features";
 import { useWalletStore } from "@/store";
 import GoogleIcon from "@mui/icons-material/Google";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Link } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { WALLET_ADAPTERS } from "@web3auth/base";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Login() {
-  const setAddress = useWalletStore((state) => state.setAddress);
-  const setPrivateKey = useWalletStore((state) => state.setPrivateKey);
-  const setUserInfo = useWalletStore((state) => state.setUserInfo);
-  const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
-  const setBalance = useWalletStore((state) => state.setBalance);
   const web3Auth = useWalletStore((state) => state.web3Auth);
-  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const login = useLogin();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const pathname = usePathname();
   const { push } = useRouter();
 
-  const login = async () => {
-    if (web3Auth && web3Auth.provider) {
-      const rpc = new EthereumRpc(web3Auth.provider);
-      await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-        loginProvider: "google",
-      });
-      setIsLoggingIn(true)
-      const signInInfo = await web3Auth.authenticateUser();
-      const userInfo = await web3Auth.getUserInfo();
-      const address = await rpc.getAccounts();
-      const balance = await rpc.getBalance();
-      const privateKey = await rpc.getPrivateKey();
-      setSignInInfo(signInInfo);
-      setUserInfo(userInfo);
-      setAddress(address);
-      setBalance(balance);
-      setPrivateKey(privateKey);
-      push("/dashboard");
-    } else {
-      throw new Error("web3Auth or provider is not initialized yet");
-    }
+  const handleOnLoginClick = async () => {
+    setIsLoggingIn(true);
+    await login();
+    push("/dashboard");
   };
 
   useEffect(() => {
@@ -58,21 +36,21 @@ export default function Login() {
 
   if (isLoggingIn) {
     return (
-        <Stack
-          height={1}
-          width={1}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <CircularProgress color="secondary" />
-        </Stack>
+      <Stack
+        height={1}
+        width={1}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <CircularProgress color="secondary" />
+      </Stack>
     );
   }
 
   return (
     <Grid
       container
-      height="100vh"
+      height={1}
     >
       <Grid
         item
@@ -90,24 +68,17 @@ export default function Login() {
         >
           <Box>
             <Typography
-              variant="h2"
-              color="primary.light"
-              fontWeight={700}
-            >
-              Login
-            </Typography>
-            <Typography
-              variant="body2"
+              variant="body1"
               color="primary.light"
             >
-              Use your Google account to access your carbon wallet
+              Use your trusted Google Single Sign-On to log into the wallet.
             </Typography>
           </Box>
           <Button
             variant="outlined"
             fullWidth
             startIcon={<GoogleIcon />}
-            onClick={login}
+            onClick={handleOnLoginClick}
             disabled={!web3Auth}
             endIcon={
               !web3Auth ? (
@@ -146,8 +117,26 @@ export default function Login() {
             variant="h2"
             fontWeight={300}
             zIndex={2}
+            sx={{ mb: 1 }}
           >
             carbon wallet
+          </Typography>
+          <Typography
+            variant="body1"
+            color="primary.light"
+            sx={{ maxWidth: 500 }}
+          >
+            This is the first web3 wallet designed for institutions to handle environmental credits. This wallet uses a
+            new method called Account Abstraction, which helps make the user experience better by simplifying tasks like
+            logging in through a trusted Single Sign-On (SSO), account recovery, and administrative functions. You can
+            learn more about Account Abstraction here:{" "}
+            <Link
+              href="https://ethereum.org/en/roadmap/account-abstraction/"
+              target="_blank"
+              color="secondary"
+            >
+              Account Abstraction
+            </Link>
           </Typography>
         </Stack>
       </Grid>

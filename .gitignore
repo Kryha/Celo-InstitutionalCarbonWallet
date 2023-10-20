@@ -11,3 +11,12 @@
 
 #!.yarn/cache
 .pnp.*
+
+# Dependency directories
+node_modules/
+
+# env
+.env
+
+# Editor directories and files
+.DS_Store

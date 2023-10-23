@@ -25,3 +25,6 @@ dist-ssr
 
 # NextJS
 .next
+
+# Typechain types
+typechain/types/

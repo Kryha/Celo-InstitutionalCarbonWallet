@@ -19,37 +19,10 @@ export default function Login() {
   const pathname = usePathname();
   const { push } = useRouter();
 
-<<<<<<< HEAD
-  const login = async () => {
-    const x = await (await testUser()).json();
-    console.log("KIJK", x);
-
-    if (web3Auth && web3Auth.provider) {
-      const rpc = new EthereumRpc(web3Auth.provider);
-      await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-        loginProvider: "google",
-      });
-      setIsLoggingIn(true);
-      const signInInfo = await web3Auth.authenticateUser();
-      const userInfo = await web3Auth.getUserInfo();
-      const address = await rpc.getAccounts();
-      const balance = await rpc.getBalance();
-      const privateKey = await rpc.getPrivateKey();
-      setSignInInfo(signInInfo);
-      setUserInfo(userInfo);
-      setAddress(address);
-      setBalance(balance);
-      setPrivateKey(privateKey);
-      push("/dashboard");
-    } else {
-      throw new Error("web3Auth or provider is not initialized yet");
-    }
-=======
   const handleOnLoginClick = async () => {
     setIsLoggingIn(true);
     await login();
     push("/dashboard");
->>>>>>> develop
   };
 
   useEffect(() => {
@@ -60,14 +33,6 @@ export default function Login() {
       localStorage.setItem("openlogin_store", JSON.stringify({ sessionId: "" }));
     }
   }, [web3Auth, pathname]);
-
-  const testUser = async () => {
-    const x = await fetch("/api/users?role=ADMIN", {
-      method: "GET",
-    });
-
-    return x;
-  };
 
   if (isLoggingIn) {
     return (

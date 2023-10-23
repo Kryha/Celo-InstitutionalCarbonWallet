@@ -2238,9 +2238,9 @@ __metadata:
   linkType: hard
 
 "@types/webidl-conversions@npm:*":
-  version: 7.0.1
-  resolution: "@types/webidl-conversions@npm:7.0.1"
-  checksum: 4324acddb45c18fa760c776fb0e912ed1af595e4fea05c26abfa71fc5a330bd26adaa4edee47825ab3cb789076176af8895ab318513b01c793f32aab396ffbed
+  version: 7.0.2
+  resolution: "@types/webidl-conversions@npm:7.0.2"
+  checksum: b29a3540c580c7eac1653ce0735fe18c7a02f3161539adb62a435cc79823bca69d83a3b58225065ed16fba321203cf17115280a2861b9c08d7ea0339b9b35981
   languageName: node
   linkType: hard
 
@@ -3676,9 +3676,9 @@ __metadata:
   linkType: hard
 
 "bson@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "bson@npm:5.5.0"
-  checksum: 5fdc833d3a6973f35eff8fb62890989344574c81188548eb10a4e62aa691828e4c865051fa57f717e596a0eb1a95e6ce037c7744184ffaa6be424ff26fb9b738
+  version: 5.5.1
+  resolution: "bson@npm:5.5.1"
+  checksum: 00fabdafe98d20609bd76f607cada03ec544b90225103f7ae859fba7674bd96cae56432b0516e30291af0c40634d306f8a45b63b706a034e95fe583c749ef5b3
   languageName: node
   linkType: hard
 

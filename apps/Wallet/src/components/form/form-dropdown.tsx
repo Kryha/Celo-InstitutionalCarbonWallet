@@ -5,7 +5,14 @@ import React from "react";
 import { useController } from "react-hook-form";
 import { FormDropDownInput } from "./types";
 
-export const FormDropdownInput: React.FC<FormDropDownInput> = ({ name, control, label, options, formControlProps, rules }) => {
+export const FormDropdownInput: React.FC<FormDropDownInput> = ({
+  name,
+  control,
+  label,
+  options,
+  formControlProps,
+  rules,
+}) => {
   const selectName = `${name}-form-dropdown-input`;
   const {
     field,
@@ -42,6 +49,7 @@ export const FormDropdownInput: React.FC<FormDropDownInput> = ({ name, control, 
         value={value}
         label={label}
         onChange={onChange}
+        inputProps={{ MenuProps: { disableScrollLock: true } }}
       >
         {generateSingleOptions()}
       </Select>

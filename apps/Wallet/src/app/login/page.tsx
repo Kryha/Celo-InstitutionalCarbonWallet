@@ -1,29 +1,25 @@
 "use client";
 
-import { EthereumRpc } from "@/features";
+import { useLogin } from "@/features";
 import { useWalletStore } from "@/store";
 import GoogleIcon from "@mui/icons-material/Google";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Link } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { WALLET_ADAPTERS } from "@web3auth/base";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Login() {
-  const setAddress = useWalletStore((state) => state.setAddress);
-  const setPrivateKey = useWalletStore((state) => state.setPrivateKey);
-  const setUserInfo = useWalletStore((state) => state.setUserInfo);
-  const setSignInInfo = useWalletStore((state) => state.setSignInInfo);
-  const setBalance = useWalletStore((state) => state.setBalance);
   const web3Auth = useWalletStore((state) => state.web3Auth);
+  const login = useLogin();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const pathname = usePathname();
   const { push } = useRouter();
 
+<<<<<<< HEAD
   const login = async () => {
     const x = await (await testUser()).json();
     console.log("KIJK", x);
@@ -48,6 +44,12 @@ export default function Login() {
     } else {
       throw new Error("web3Auth or provider is not initialized yet");
     }
+=======
+  const handleOnLoginClick = async () => {
+    setIsLoggingIn(true);
+    await login();
+    push("/dashboard");
+>>>>>>> develop
   };
 
   useEffect(() => {
@@ -104,14 +106,14 @@ export default function Login() {
               variant="body1"
               color="primary.light"
             >
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Use your trusted Google Single Sign-On to log into the wallet.
             </Typography>
           </Box>
           <Button
             variant="outlined"
             fullWidth
             startIcon={<GoogleIcon />}
-            onClick={login}
+            onClick={handleOnLoginClick}
             disabled={!web3Auth}
             endIcon={
               !web3Auth ? (
@@ -159,8 +161,17 @@ export default function Login() {
             color="primary.light"
             sx={{ maxWidth: 500 }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
+            This is the first web3 wallet designed for institutions to handle environmental credits. This wallet uses a
+            new method called Account Abstraction, which helps make the user experience better by simplifying tasks like
+            logging in through a trusted Single Sign-On (SSO), account recovery, and administrative functions. You can
+            learn more about Account Abstraction here:{" "}
+            <Link
+              href="https://ethereum.org/en/roadmap/account-abstraction/"
+              target="_blank"
+              color="secondary"
+            >
+              Account Abstraction
+            </Link>
           </Typography>
         </Stack>
       </Grid>

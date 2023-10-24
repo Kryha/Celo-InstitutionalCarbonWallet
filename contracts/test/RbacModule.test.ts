@@ -16,8 +16,7 @@ describe("RbacModule", function () {
 
     delegateAddress = await delegate.getAddress();
 
-    const RbacModuleFactory = await ethers.getContractFactory("RbacModule");
-    rbacModule = await RbacModuleFactory.deploy();
+    rbacModule = (await ethers.deployContract("RbacModule")) as unknown as RbacModule;
   });
 
   it("Add delegate", async function () {
@@ -36,42 +35,21 @@ describe("RbacModule", function () {
     expect(isDelegate).to.be.false;
   });
 
-  // it("Delegate can successfully make a transfer", async function () {
-  //   // Add delegate
-  //   await rbacModule.addDelegate(delegateAddress);
+  it("Delegate can call transfer", async function () {
+    await rbacModule.connect(owner).addDelegate(delegateAddress);
 
-  //   // Create a mock GnosisSafe address
-  //   const mockGnosisSafeAddress = ethers.constants.AddressZero;
+    const mockDestination = "0x0000000000000000000000000000000000000000";
 
-  //   // Get the initial balance of the mock GnosisSafe
-  //   const initialBalance = await ethers.provider.getBalance(mockGnosisSafeAddress);
-  //   const amount = ethers.utils.parseEther("1.0");
+    const amount = ethers.parseEther("1.0");
 
-  //   // Delegate makes a transfer
-  //   await rbacModule.executeTransfer(mockGnosisSafeAddress, ownerAddress, amount);
-
-  //   // Get the final balance of the mock GnosisSafe
-  //   const finalBalance = await ethers.provider.getBalance(mockGnosisSafeAddress);
-
-  //   // Check if the balance increased as expected
-  //   expect(finalBalance).to.equal(initialBalance.add(amount));
-  // });
+    await expect(rbacModule.connect(delegate).executeTransfer(ownerAddress, mockDestination, amount)).to.be.revertedWithoutReason();
+  });
 
   it("Delegate cannot make a transfer without being added as a delegate", async function () {
-    // Create a mock GnosisSafe address
-    const mockGnosisSafeAddress = ethers.constants.AddressZero;
+    const mockDestination = "0x0000000000000000000000000000000000000000";
 
-    // Get the initial balance of the mock GnosisSafe
-    const initialBalance = await ethers.provider.getBalance(mockGnosisSafeAddress);
-    const amount = ethers.utils.parseEther("1.0");
+    const amount = ethers.parseEther("1.0");
 
-    // Attempt to make a transfer without being added as a delegate
-    expect(await rbacModule.executeTransfer(mockGnosisSafeAddress, ownerAddress, amount)).to.be.reverted("msg.sender is not a delegate");
-
-    // Get the final balance of the mock GnosisSafe (it should remain the same)
-    const finalBalance = await ethers.provider.getBalance(mockGnosisSafeAddress);
-
-    // // Check if the balance remained the same
-    expect(finalBalance).to.equal(initialBalance);
+    await expect(rbacModule.executeTransfer(ownerAddress, mockDestination, amount)).to.be.revertedWith("msg.sender is not a delegate");
   });
 });

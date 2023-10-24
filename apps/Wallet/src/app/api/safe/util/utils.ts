@@ -1,18 +1,13 @@
-import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
-import { ethers } from "ethers";
+import { SafeTransactionBody } from "@/types";
 import SafeApiKit from "@safe-global/api-kit";
 import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
-import { SafeTransactionBody } from "@/types";
-import { etherscanId, network } from "./constants";
-
-export function getSigner() {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
-  return new ethers.Wallet(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
-}
+import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
+import { ethers } from "ethers";
+import { network } from "./constants";
 
 export function getEtherscanSigner(pk: string) {
   const provider = ethers.getDefaultProvider(network, {
-    etherscan: etherscanId,
+    etherscan: process.env.ETHERSCAN_ID!,
   });
   return new ethers.Wallet(pk, provider);
 }
@@ -22,7 +17,7 @@ function getEthAdapter(pk?: string): EthersAdapter {
 
   let signer;
   if (pk) {
-    signer = new ethers.Wallet(pk, provider);
+    signer = getEtherscanSigner(pk);
   }
 
   const ethAdapter = new EthersAdapter({

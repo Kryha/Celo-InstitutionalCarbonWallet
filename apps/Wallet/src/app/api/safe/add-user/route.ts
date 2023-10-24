@@ -2,7 +2,7 @@ import { AddressTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
-import { getSafe, getSigner } from "../util/utils";
+import { getSafe, getEtherscanSigner } from "../util/utils";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as AddressTransactionBody;
@@ -35,7 +35,7 @@ export async function POST(req: Request): Promise<Response> {
 }
 
 async function getAddUserCallData(rbacModuleAddress: string, delegateAddress: string) {
-  const signer = getSigner();
+  const signer = getEtherscanSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!);
   const rbac = Rbac__factory.connect(rbacModuleAddress, signer);
   const tx = await rbac.populateTransaction.addDelegate(delegateAddress);
   return tx.data;

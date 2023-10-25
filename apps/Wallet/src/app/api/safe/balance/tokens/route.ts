@@ -1,5 +1,5 @@
 import { SafeMultisigTransactionResponse } from "@safe-global/safe-core-sdk-types";
-import { getSafeService } from "../../utils";
+import { getSafeService } from "../../util/utils";
 import { BigNumber } from "ethers";
 
 export async function GET(req: Request, res: Response): Promise<Response> {

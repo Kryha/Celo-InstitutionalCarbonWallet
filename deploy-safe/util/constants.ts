@@ -26,3 +26,6 @@ export const safeAmountUnitCelo = `celo`;
 // Transfer funds from safe
 export const transferAmount = `0.005`;
 export const safeThreshold = 1;
+
+// rbac module address
+export const rbacModuleAddress = "0xfc3c71d00d522f8a2537523b22f54405011257ff";

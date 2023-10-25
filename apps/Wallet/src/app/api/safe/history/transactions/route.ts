@@ -1,4 +1,4 @@
-import { getSafeService } from "../../utils";
+import { getSafeService } from "../../util/utils";
 
 export async function GET(req: Request, res: Response): Promise<Response> {
   const safeSdk = await getSafeService();

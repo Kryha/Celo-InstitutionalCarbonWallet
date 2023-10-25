@@ -9,7 +9,7 @@ export function useAddSafeOwner() {
       return fetch("/api/safe/owner", {
         method: "POST",
         body: JSON.stringify({
-          ownerAddress: address,
+          address: address,
         }),
       });
     },

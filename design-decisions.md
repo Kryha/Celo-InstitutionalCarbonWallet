@@ -15,4 +15,10 @@ Unfortunately, Safe does not provide us with an API to do this on Alfajores. The
 
 As such, for development purposes, we are deploying our contracts on the Ethereum Goerli testnet using this transaction service (https://safe-transaction-goerli.safe.global/). Our final version will then make use of the Celo mainnet supported transaction service API (https://safe-transaction-celo.safe.global/).
 
+### Role Based Access Control Module
 
+We have decided to implement Role Based Access Control (RBAC) as a Safe Module https://docs.safe.global/safe-smart-account/modules. This is a seperate smart contract which needs to be deployed on a seperate address.
+
+Modules can be added and removed from a Safe by running the scripts found in [deploy-safe/custom-module](deploy-safe/custom-module). As such, to enable a module it already needs to be deployed.
+
+Our RBAC module allows for admin functionality in an institutional smart contract wallet. Admins (Safe owners) can add and remove users (traders) to and from the module. Being added to the module allows traders to make transactions from the shared wallet. We have kept this module simple, so at this point traders do not have any spending limits. The actual smart contract module code can be found in the [contracts/](contracts) directory.

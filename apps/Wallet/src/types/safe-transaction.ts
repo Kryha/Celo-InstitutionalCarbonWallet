@@ -12,6 +12,11 @@ export type AddressTransactionBody = {
   address: string;
 }
 
+export type UserManagementTransactionBody = {
+  pk: string;
+  address: string;
+}
+
 export type ExecuteUserTransactionBody = {
   pk: string;
   amount: string;

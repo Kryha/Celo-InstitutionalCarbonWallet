@@ -20,3 +20,12 @@ export async function GET(req: NextRequest): Promise<Response> {
 
   return new Response(JSON.stringify(users));
 }
+
+export async function PUT(req: Request, res: Response): Promise<Response> {
+  await dbConnect();
+
+  const body = (await req.json()) as Partial<IUser>;
+  const userResponse = await user.findOneAndUpdate<Users>({ publicKey: body.publicKey }, body);
+
+  return new Response(JSON.stringify(userResponse));
+}

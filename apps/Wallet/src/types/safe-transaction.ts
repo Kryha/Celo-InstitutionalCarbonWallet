@@ -8,20 +8,13 @@ export type FundUserTransactionBody = {
   destination: string;
 };
 
-export type AddOwnerTransactionBody = {
-  ownerAddress: string;
+export type AddressTransactionBody = {
+  address: string;
 }
 
-export type AddUserTransactionBody = {
-  userAddress: string;
-}
-
-export type IsUserTransactionBody = {
-  userAddress: string;
-}
-
-export type RemoveUserTransactionBody = {
-  userAddress: string;
+export type UserManagementTransactionBody = {
+  pk: string;
+  address: string;
 }
 
 export type ExecuteUserTransactionBody = {

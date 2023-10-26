@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typechain": "typechain --target ethers-v5 --out-dir ./src/app/api/safe/util/typechain/types/config/abis './src/app/api/safe/util/typechain/abis/*.json'"
+    "typechain": "typechain --target ethers-v5 --out-dir ./src/types/typechain/types/config/abis './src/types/typechain/abis/*.json'"
   },
   "dependencies": {
     "@emotion/react": "11.11.1",
@@ -27,6 +27,7 @@
     "@web3auth/openlogin-adapter": "7.0.1",
     "dayjs": "1.11.10",
     "ethers": "5.7.2",
+    "mongoose": "7.6.2",
     "next": "13.5.4",
     "react": "18",
     "react-dom": "18",

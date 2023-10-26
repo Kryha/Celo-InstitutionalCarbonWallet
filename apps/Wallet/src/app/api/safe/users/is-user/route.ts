@@ -1,16 +1,14 @@
-import { IsUserTransactionBody } from "@/types";
-import { ethers } from "ethers";
-import rbac from "../../util/typechain/abis/rbac.json";
-import { Rbac } from "../../util/typechain/types/config/abis";
-import { getEtherscanSigner } from "../../util/utils";
+import { AddressTransactionBody } from "@/types";
+import { Rbac__factory } from "../../../../../types/typechain/types/config/abis";
+import { getEtherscanProvider } from "../../util/utils";
 
 export async function GET(req: Request, res: Response): Promise<Response> {
-    const body = (await req.json()) as IsUserTransactionBody;
-    const signer = getEtherscanSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!);
+    const body = (await req.json()) as AddressTransactionBody;
+    const provider = getEtherscanProvider();
     const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
-    const moduleContract = new ethers.Contract(rbacModuleAddress, rbac, signer) as Rbac;
+    const rbac = Rbac__factory.connect(rbacModuleAddress, provider);
     const safe = process.env.SAFE_ADDRESS!;
-    const isUser = await moduleContract.isDelegate(safe, body.userAddress)
+    const isUser = await rbac.isDelegate(safe, body.address)
     
     return new Response(JSON.stringify(isUser));
   }

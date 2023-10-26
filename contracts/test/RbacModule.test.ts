@@ -16,7 +16,7 @@ describe("RbacModule", function () {
 
     delegateAddress = await delegate.getAddress();
 
-    rbacModule = (await ethers.deployContract("RbacModule")) as unknown as RbacModule;
+    rbacModule = await ethers.deployContract("RbacModule");
   });
 
   it("Add delegate", async function () {

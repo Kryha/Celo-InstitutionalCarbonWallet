@@ -1,10 +1,22 @@
 {
   "name": "hardhat-project",
+  "version": "1.0.0",
+  "description": "hardhat",
+  "license": "MIT",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "hardhat-help": "hardhat help",
+    "typechain": "hardhat typechain",
+    "coverage": "hardhat coverage",
+    "clean": "hardhat clean",
+    "console": "hardhat console"
+  },
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",
+    "@nomicfoundation/hardhat-chai-matchers": "2.0.2",
     "@nomicfoundation/hardhat-toolbox": "3.0.0",
-    "@types/node": "^20.8.8",
-    "hardhat": "^2.18.2"
+    "@types/node": "20.8.8",
+    "hardhat": "2.18.2"
   },
   "dependencies": {
     "@nomicfoundation/hardhat-ethers": "3.0.0",
@@ -13,10 +25,10 @@
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@typechain/ethers-v6": "0.4.0",
     "@typechain/hardhat": "8.0.0",
-    "@types/chai": "^4.3.9",
-    "@types/mocha": "^10.0.3",
-    "chai": "^4.3.10",
-    "ethers": "^6.8.0",
+    "@types/chai": "4.3.9",
+    "@types/mocha": "10.0.3",
+    "chai": "4.3.10",
+    "ethers": "6.8.0",
     "hardhat-gas-reporter": "1.0.8",
     "solidity-coverage": "0.8.1",
     "typechain": "8.2.0"

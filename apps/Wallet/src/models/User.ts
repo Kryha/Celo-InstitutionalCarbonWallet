@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ROLES } from "@/types";
 
 export interface Users extends mongoose.Document {
   name: string;
@@ -13,10 +14,6 @@ const UserSchema = new mongoose.Schema<Users>({
     type: String,
     required: [true, "Please provide a name for the user."],
   },
-  surname: {
-    type: String,
-    required: [true, "Please provide the surname for the user."],
-  },
   publicKey: {
     type: String,
     required: [true, "Please specify the public key of your user."],
@@ -24,12 +21,13 @@ const UserSchema = new mongoose.Schema<Users>({
   },
   emailAddress: {
     type: String,
-    required: [true, "Please specify the email address"],
+    required: [true, "Please specify the email address."],
     unique: true,
   },
   role: {
     type: String,
-    enum: ["REGISTERED", "TRADER", "ADMIN"],
+    required: [true, "Please specify a role for the user."],
+    enum: ROLES,
   },
 });
 

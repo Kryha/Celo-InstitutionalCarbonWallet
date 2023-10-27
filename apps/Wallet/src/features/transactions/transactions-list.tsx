@@ -33,7 +33,7 @@ export function TransactionsList() {
           <TransactionsListItem
             id={transaction.transactionHash}
             date={transaction.executionDate}
-            from={transaction.executor}
+            from={transaction.module}
             to={transaction.to}
             value={transaction.value}
           />

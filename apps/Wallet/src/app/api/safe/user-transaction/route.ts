@@ -1,12 +1,12 @@
 import { ExecuteUserTransactionBody } from "@/types";
 import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
-import { getEtherscanSigner } from "../util/utils";
+import { getCeloSigner } from "../util/utils";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as ExecuteUserTransactionBody;
 
-  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
-  const signer = getEtherscanSigner(body.pk);
+  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS_CELO!;
+  const signer = await getCeloSigner(body.pk);
   const rbac = Rbac__factory.connect(rbacModuleAddress, signer);
   const safe = process.env.SAFE_ADDRESS!;
   const to = body.destination;

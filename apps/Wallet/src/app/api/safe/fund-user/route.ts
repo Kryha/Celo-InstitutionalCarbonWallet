@@ -5,7 +5,7 @@ import { createTransaction } from "../util/utils";
 
 export async function POST(req: Request, res: Response): Promise<Response> {
   let body = (await req.json()) as FundUserTransactionBody;
-  const pk = process.env.OWNER_1_PRIVATE_KEY_GOERLI!;
+  const pk = process.env.OWNER_1_PRIVATE_KEY_CELO!;
   const destination = body.destination;
   const sendBody = {
     destination,

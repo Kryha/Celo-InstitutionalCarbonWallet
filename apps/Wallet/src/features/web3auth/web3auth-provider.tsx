@@ -1,6 +1,6 @@
 "use client";
 
-import { ADAPTER_SETTINGS, GOERLI_CHAIN_CONFIG } from "@/features";
+import { ADAPTER_SETTINGS, CELO_CHAIN_CONFIG } from "@/features";
 import { useWalletStore } from "@/store";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
@@ -11,17 +11,17 @@ export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
   const web3Auth = useWalletStore((state) => state.web3Auth);
   const setWeb3Auth = useWalletStore((state) => state.setWeb3Auth);
   const clientId = process.env.NEXT_PUBLIC_clientId!;
-
+// changes need to be made here
   useEffect(() => {
     const init = async () => {
       try {
         const web3AuthInstance = new Web3AuthNoModal({
           clientId,
-          chainConfig: GOERLI_CHAIN_CONFIG,
+          chainConfig: CELO_CHAIN_CONFIG,
           web3AuthNetwork: "testnet",
         });
 
-        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig: GOERLI_CHAIN_CONFIG } });
+        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig: CELO_CHAIN_CONFIG } });
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings: ADAPTER_SETTINGS,

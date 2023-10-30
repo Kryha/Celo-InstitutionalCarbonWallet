@@ -74,7 +74,7 @@ export function SendTransactionForm() {
                 variant="body1"
                 color="primary.light"
               >
-                {ethers.utils.formatEther(ethers.BigNumber.from(balance))} ETH
+                {ethers.utils.formatEther(ethers.BigNumber.from(balance))} CELO
               </Typography>
             )}
             {isLoadingTokenBalance ? (

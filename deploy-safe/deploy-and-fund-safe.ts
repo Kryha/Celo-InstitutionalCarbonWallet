@@ -1,36 +1,34 @@
 import { SafeAccountConfig, SafeFactory } from "@safe-global/protocol-kit";
 import { ethers } from "ethers";
 import {
-  RPC_URL_ALFAJORES,
-  RPC_URL_GOERLI,
   etherscanUrlTx_GOERLI,
   etherscanUrl_GOERLI,
-  explorerUrlAddressTx_ALFAJORES,
-  explorerUrlAddress_ALFAJORES,
+  explorerUrlAddressTx_CELO,
+  explorerUrlAddress_CELO,
   fundSafeAmount,
+  RPC_URL_CELO,
+  RPC_URL_GOERLI,
   safeAmountUnitGoerli,
-  safeAppUrl_ALFAJORES,
+  safeAppUrl_CELO,
   safeAppUrl_GOERLI,
-  safeThreshold
+  safeThreshold,
 } from "./util/constants";
 import { getEthersAdapter, getProvider, getSigner } from "./util/safe-wrappers";
 import { generateSaltNonce, writeToJson } from "./util/update-config";
 require("dotenv").config();
 
 async function main() {
-  // Set RPC URL here  (Goerli or Alfajores)
-  const provider = getProvider(RPC_URL_GOERLI);
+  // Set RPC URL here  (Goerli or Celo)
+  const provider = getProvider(RPC_URL_CELO);
 
-  const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
-  const owner2Signer = getSigner(process.env.OWNER_2_PRIVATE_KEY_GOERLI!, provider);
-  const owner3Signer = getSigner(process.env.OWNER_3_PRIVATE_KEY_GOERLI!, provider);
+  const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_CELO!, provider);
 
   const ethAdapterOwner1 = getEthersAdapter(owner1Signer);
 
   const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
 
   const safeAccountConfig: SafeAccountConfig = {
-    owners: [await owner1Signer.getAddress(), await owner2Signer.getAddress(), await owner3Signer.getAddress()],
+    owners: [await owner1Signer.getAddress()],
     threshold: safeThreshold,
   };
 
@@ -49,13 +47,13 @@ async function main() {
 
     console.log(`GOERLI: ${etherscanUrl_GOERLI}/${safeAddress}`);
     console.log(`GOERLI: ${safeAppUrl_GOERLI}:${safeAddress}`);
-  } else if (provider.connection.url === RPC_URL_ALFAJORES) {
-    console.log("Your Safe has been deployed to ALFAJORES:");
+  } else if (provider.connection.url === RPC_URL_CELO) {
+    console.log("Your Safe has been deployed to CELO:");
 
-    console.log(`ALFAJORES: ${explorerUrlAddress_ALFAJORES}/${safeAddress}`);
-    console.log(`ALFAJORES: ${safeAppUrl_ALFAJORES}:${safeAddress}`);
+    console.log(`CELO: ${explorerUrlAddress_CELO}/${safeAddress}`);
+    console.log(`CELO: ${safeAppUrl_CELO}:${safeAddress}`);
   } else {
-    console.log("RPC url does not match goerli or alfajores: ", provider.connection.url);
+    console.log("RPC url does not match goerli or celo: ", provider.connection.url);
   }
 
   const safeAmount = ethers.utils.parseUnits(fundSafeAmount, safeAmountUnitGoerli).toHexString();
@@ -70,11 +68,11 @@ async function main() {
   if (provider.connection.url === RPC_URL_GOERLI) {
     console.log("Fundraising GOERLI:");
     console.log(`Deposit Transaction GOERLI: ${etherscanUrlTx_GOERLI}/${tx.hash}`);
-  } else if (provider.connection.url === RPC_URL_ALFAJORES) {
-    console.log("Fundraising ALFAJORES:");
-    console.log(`Deposit Transaction ALFAJORES: ${explorerUrlAddressTx_ALFAJORES}/${tx.hash}`);
+  } else if (provider.connection.url === RPC_URL_CELO) {
+    console.log("Fundraising CELO:");
+    console.log(`Deposit Transaction CELO: ${explorerUrlAddressTx_CELO}/${tx.hash}`);
   } else {
-    console.log("RPC url does not match goerli or alfajores: ", provider.connection.url);
+    console.log("RPC url does not match goerli or celo: ", provider.connection.url);
   }
 }
 

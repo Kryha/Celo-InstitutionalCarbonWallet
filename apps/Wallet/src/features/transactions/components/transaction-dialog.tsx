@@ -100,7 +100,7 @@ export function TransactionDialog(props: TransactionDialogProps) {
                   >
                     Value:
                   </TableCell>
-                  <TableCell align="left">{ethers.utils.formatEther(ethers.BigNumber.from(value))} ETH</TableCell>
+                  <TableCell align="left">{ethers.utils.formatEther(ethers.BigNumber.from(value))} CELO</TableCell>
                 </TableRow>
                 <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell
@@ -109,7 +109,7 @@ export function TransactionDialog(props: TransactionDialogProps) {
                   >
                     Tx link:
                   </TableCell>
-                  <TableCell align="left"><Link href={`https://goerli.etherscan.io/tx/${id}`} target="_blank" color="secondary">{`https://goerli.etherscan.io/tx/${id}`}</Link></TableCell>
+                  <TableCell align="left"><Link href={`https://celoscan.io/tx/${id}`} target="_blank" color="secondary">{`https://celoscan.io/tx/${id}`}</Link></TableCell>
                 </TableRow>
               </TableBody>
             </Table>

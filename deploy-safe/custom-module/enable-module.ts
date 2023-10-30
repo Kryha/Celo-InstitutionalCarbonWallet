@@ -1,13 +1,13 @@
-import { rbacModuleAddress, RPC_URL_GOERLI } from "../util/constants";
+import { rbacModuleAddress_celo, RPC_URL_CELO } from "../util/constants";
 import { createSafe, getEthersAdapter, getProvider, getSigner } from "../util/safe-wrappers";
 import { getSafeAddress } from "../util/update-config";
 require("dotenv").config();
 
 async function enableModule(moduleAddress: string) {
-  // Set RPC URL here  (Goerli or Alfajores)
-  const provider = getProvider(RPC_URL_GOERLI);
+  // Set RPC URL here  (Goerli or Celo)
+  const provider = getProvider(RPC_URL_CELO);
 
-  const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
+  const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_CELO!, provider);
 
   const ethAdapterOwner1 = getEthersAdapter(owner1Signer);
 
@@ -28,4 +28,4 @@ async function enableModule(moduleAddress: string) {
   console.log("Updated list of allowed modules: ", updatedListOfModules);
 }
 
-enableModule(rbacModuleAddress);
+enableModule(rbacModuleAddress_celo);

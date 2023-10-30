@@ -2,13 +2,13 @@ import { UserManagementTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
-import { getSafe, getSigner } from "../util/utils";
+import { getCeloSigner, getSafe } from "../util/utils";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as UserManagementTransactionBody;
 
-  const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_GOERLI);
-  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
+  const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_CELO);
+  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS_CELO!;
 
   const callData = await getRemoveUserCallData(body.pk, rbacModuleAddress, body.address);
 
@@ -35,7 +35,7 @@ export async function POST(req: Request): Promise<Response> {
 }
 
 async function getRemoveUserCallData(pk: string, rbacModuleAddress: string, delegateAddress: string) {
-  const signer = getSigner(pk);
+  const signer = await getCeloSigner(pk);
   const rbac = Rbac__factory.connect(rbacModuleAddress, signer);
   const tx = await rbac.populateTransaction.removeDelegate(delegateAddress);
   return tx.data;

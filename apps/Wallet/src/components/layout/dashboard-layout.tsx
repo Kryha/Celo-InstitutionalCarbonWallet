@@ -1,7 +1,8 @@
 "use client";
 
-import { useGetUser, useLogout } from "@/features";
+import { useLogout } from "@/features";
 import { useWalletStore } from "@/store";
+import { User } from "@/types";
 import { shortenHashString } from "@/utils";
 import AccountCircle from "@mui/icons-material/AccountCircleOutlined";
 import Stack from "@mui/material/Stack";
@@ -16,13 +17,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 
-export function DashboardLayout({ children }: { children: ReactNode }) {
+export function DashboardLayout({ children, user }: { children: ReactNode; user?: User }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const logout = useLogout();
   const web3Auth = useWalletStore((state) => state.web3Auth);
   const userInfo = useWalletStore((state) => state.userInfo);
   const address = useWalletStore((state) => state.address);
-  const { data: user } = useGetUser();
   const isAdminUser = user?.role === "ADMIN";
   const { push } = useRouter();
   const showMenu = Boolean(user) && Boolean(web3Auth);

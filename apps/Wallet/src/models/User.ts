@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { ROLES } from "@/types";
 
-export interface Users extends mongoose.Document {
+export interface User extends mongoose.Document {
   name: string;
   surname: string;
   publicKey: string;
@@ -9,7 +9,7 @@ export interface Users extends mongoose.Document {
   role: string;
 }
 
-const UserSchema = new mongoose.Schema<Users>({
+const UserSchema = new mongoose.Schema<User>({
   name: {
     type: String,
     required: [true, "Please provide a name for the user."],
@@ -31,4 +31,4 @@ const UserSchema = new mongoose.Schema<Users>({
   },
 });
 
-export default mongoose.models.User || mongoose.model<Users>("User", UserSchema);
+export default mongoose.models.User || mongoose.model<User>("User", UserSchema);

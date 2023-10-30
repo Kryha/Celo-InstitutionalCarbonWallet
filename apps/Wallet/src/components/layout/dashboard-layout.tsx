@@ -24,11 +24,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
   const { data: user } = useGetUser();
   const isAdminUser = user?.role === "ADMIN";
   const { push } = useRouter();
-  const showMenu = Boolean(user) && Boolean(web3Auth) && user?.role !== "REGISTERED";
-
-  const navigateToUsersPage = () => {
-    push("/dashboard/users");
-  };
+  const showMenu = Boolean(user) && Boolean(web3Auth);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +32,11 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const navigateToUsersPage = () => {
+    handleClose();
+    push("/dashboard/users");
   };
 
   const handleOnLogoutClick = async () => {

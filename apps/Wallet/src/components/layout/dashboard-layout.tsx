@@ -57,7 +57,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            Carbon wallet
+            <Link href="/dashboard">Carbon wallet</Link>
           </Typography>
           {showMenu && (
             <div>

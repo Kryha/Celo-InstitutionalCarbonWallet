@@ -115,7 +115,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
                     </Typography>
                   </Stack>
                 </MenuItem>
-                {isAdminUser && <MenuItem onClick={navigateToUsersPage}>Logout</MenuItem>}
+                {isAdminUser && <MenuItem onClick={navigateToUsersPage}>Users</MenuItem>}
                 <MenuItem onClick={handleOnLogoutClick}>Logout</MenuItem>
               </Menu>
             </div>

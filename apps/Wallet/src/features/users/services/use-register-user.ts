@@ -1,8 +1,9 @@
 import { User } from "@/types";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useRegisterUser() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (body: User) => {
       return fetch("/api/users", {
@@ -10,8 +11,6 @@ export function useRegisterUser() {
         body: JSON.stringify(body),
       });
     },
-    onError: (error: Error) => {
-      toast.error(`There was a problem: ${error.message}`, { duration: 5000 });
-    },
+    onSuccess: () => queryClient.invalidateQueries(),
   });
 }

@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
   }, [web3Auth]);
 
-  if (!web3Auth || isLoadingGetUser) {
+  if (!web3Auth || isLoadingGetUser || !user) {
     return (
       <DashboardLayout>
         <Stack

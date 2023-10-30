@@ -1,7 +1,6 @@
 import { useWalletStore } from "@/store";
 import { User } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 import { useRegisterUser } from "./use-register-user";
 
 export function useGetUser() {
@@ -10,6 +9,7 @@ export function useGetUser() {
   const { mutate: registerUser } = useRegisterUser();
 
   return useQuery({
+    queryKey: ["user", address],
     queryFn: () => fetch(`/api/users/${address}`).then((res) => res.json()),
     onSuccess: (user: User) => {
       if (!user) {
@@ -18,11 +18,9 @@ export function useGetUser() {
           surname: " ",
           publicKey: address,
           emailAddress: userInfo?.email || "",
+          role: "REGISTERED",
         });
       }
-    },
-    onError: (error: Error) => {
-      toast.error(`There was a problem fetching the user: ${error.message}`, { duration: 5000 });
     },
   });
 }

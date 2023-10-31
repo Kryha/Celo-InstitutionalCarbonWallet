@@ -1,14 +1,14 @@
 "use client";
 
 import { SendTransactionForm, TransactionsList } from "@/features";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 export default function Dashboard() {
   return (
     <Grid
       container
       py={4}
-      px={{xs: 1,sm: 2, md: 4}}
+      px={{ xs: 1, sm: 2, md: 4 }}
       spacing={4}
     >
       <Grid

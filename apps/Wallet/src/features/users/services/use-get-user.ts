@@ -15,7 +15,6 @@ export function useGetUser() {
       if (!user) {
         registerUser({
           name: userInfo?.name || "",
-          surname: " ",
           publicKey: address,
           emailAddress: userInfo?.email || "",
           role: "REGISTERED",

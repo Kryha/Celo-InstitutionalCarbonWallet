@@ -2,7 +2,7 @@
 
 import { FormDropdownInput, FormNumberInput } from "@/components";
 import { useWalletStore } from "@/store";
-import { SafeTransactionBody } from "@/types";
+import { ExecuteUserTransactionBody } from "@/types";
 import { Button, CircularProgress, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { ethers } from "ethers";
 import { FormProvider, useForm } from "react-hook-form";
@@ -16,7 +16,7 @@ export function SendTransactionForm() {
   const { data: balance = "0", isLoading: isLoadingBalance } = useGetBalance();
   const { data: tokenBalance = "0", isLoading: isLoadingTokenBalance } = useGetTokenBalance();
   const { mutate: sendTransaction, isLoading: isSendingTransaction } = useSendTransaction();
-  const formMethods = useForm<SafeTransactionBody & { tokenType: string }>({
+  const formMethods = useForm<ExecuteUserTransactionBody & { tokenType: string }>({
     defaultValues: { pk: privateKey, destination: "", tokenType: "" },
     mode: "onBlur",
   });
@@ -36,7 +36,7 @@ export function SendTransactionForm() {
   const companyName = process.env.NEXT_PUBLIC_company_name!;
   const tokenValue = amount ? (Number(amount) * NCT_TOKEN_PRICE).toFixed(8) : 0;
 
-  const onSubmit = (data: SafeTransactionBody) =>
+  const onSubmit = (data: ExecuteUserTransactionBody) =>
     sendTransaction(
       { pk: data.pk, destination: data.destination, amount: String(tokenValue) },
       {

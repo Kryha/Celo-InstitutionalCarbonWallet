@@ -1,5 +1,6 @@
 "use client";
 
+import { useWalletStore } from "@/store";
 import { ROLES, User } from "@/types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CircularProgress, Stack } from "@mui/material";
@@ -13,13 +14,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { MouseEvent, useState } from "react";
-import { useGetUsers, useUpdateUser } from "./services";
+import { useAddUser, useGetUsers, useUpdateUser } from "./services";
 import { renderUserRole } from "./utils";
 
 function UpdateRoleMenu({ user }: { user: User }) {
   const { mutate: updateUser, isLoading: isUpdatingUser } = useUpdateUser();
+  const { mutate: addUser } = useAddUser();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const pk = useWalletStore((state) => state.privateKey);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,6 +33,15 @@ function UpdateRoleMenu({ user }: { user: User }) {
   };
 
   const updateRole = (role: User["role"]) => {
+    addUser(
+      {
+        pk: pk,
+        address: user.publicKey,
+      },
+      {
+        onSuccess: () => console.log("successfully added user"),
+      }
+    );
     updateUser(
       {
         role,

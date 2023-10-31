@@ -91,6 +91,20 @@ export default function Login() {
           >
             Login with Google
           </Button>
+          <Typography
+            variant="body1"
+            color="primary.light"
+            sx={{ maxWidth: 500 }}
+          >
+            Was your password compromised? Click here to {" "}
+            <Link
+              href="https://myaccount.google.com/intro/signinoptions/password"
+              target="_blank"
+              color="secondary"
+            >
+              change your password
+            </Link>
+          </Typography>
         </Stack>
       </Grid>
       <Grid

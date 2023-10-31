@@ -2,6 +2,7 @@
 
 import { ROLES, User } from "@/types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { CircularProgress, Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -67,7 +68,18 @@ function UpdateRoleMenu({ user }: { user: User }) {
 }
 
 export function UsersTable() {
-  const { data: users = [] } = useGetUsers();
+  const { data: users = [], isLoading: isLoadingUsers } = useGetUsers();
+
+  if (isLoadingUsers) {
+    return (
+      <Stack
+        width={1}
+        alignItems="center"
+      >
+        <CircularProgress color="secondary" />
+      </Stack>
+    );
+  }
 
   return (
     <TableContainer>

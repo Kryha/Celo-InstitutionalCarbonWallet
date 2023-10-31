@@ -30,12 +30,17 @@ function UpdateRoleMenu({ user }: { user: User }) {
   };
 
   const updateRole = (role: User["role"]) => {
-    updateUser({
-      role,
-      name: user.name,
-      publicKey: user.publicKey,
-      emailAddress: user.emailAddress,
-    });
+    updateUser(
+      {
+        role,
+        name: user.name,
+        publicKey: user.publicKey,
+        emailAddress: user.emailAddress,
+      },
+      {
+        onSuccess: () => handleClose(),
+      }
+    );
   };
 
   return (

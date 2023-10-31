@@ -34,7 +34,6 @@ function UpdateRoleMenu({ user }: { user: User }) {
       name: user.name,
       publicKey: user.publicKey,
       emailAddress: user.emailAddress,
-      surname: user.surname,
     });
   };
 

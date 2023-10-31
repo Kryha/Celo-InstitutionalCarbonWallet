@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 export function useGetUsers() {
   return useQuery({
     queryKey: ["users"],
-    queryFn: (): Promise<User[]> => fetch("/api/users").then((res) => res.json()),
+    queryFn: (): Promise<User[]> =>
+      fetch(`/api/users?role=TRADER&role=ADMIN&role=REGISTERED`).then((res) => res.json()),
   });
 }

@@ -1,13 +1,17 @@
 import { UserManagementTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
-import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
-import { getSafe, getSigner } from "../util/utils";
+import { Rbac__factory } from "../../../../../types/typechain/types/config/abis";
+import { getSafe, getSigner } from "../../util/utils";
+import { safeExists } from "../../util/safeExists";
 
-export async function POST(req: Request): Promise<Response> {
+export async function POST(req: Request, { params }: any): Promise<Response> {
+  const exists = await safeExists(params.safeAddress);
+  if (!exists) return Response.json({}, { status: 404, statusText: "Safe not found." });
+
   const body = (await req.json()) as UserManagementTransactionBody;
 
-  const safeSdk = await getSafe(process.env.OWNER_1_PRIVATE_KEY_GOERLI);
+  const safeSdk = await getSafe(params.safeAddress, body.pk);
   const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
 
   const callData = await getAddUserCallData(body.pk, rbacModuleAddress, body.address);

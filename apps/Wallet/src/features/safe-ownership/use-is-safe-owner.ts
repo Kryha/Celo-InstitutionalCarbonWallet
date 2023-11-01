@@ -5,6 +5,8 @@ import { useFundSafeOwner } from "./use-fund-owner";
 
 export function useIsSafeOwner() {
   const { mutate: fundOwner } = useFundSafeOwner();
+
+  const safeAddress = useWalletStore((state) => state.safeAddress);
   const address = useWalletStore((state) => state.address);
   const balance = useWalletStore((state) => state.balance);
   const isSafeOwner = useWalletStore((state) => state.isSafeOwner);
@@ -13,7 +15,7 @@ export function useIsSafeOwner() {
 
   return useQuery({
     queryKey: ["isOwner", address],
-    queryFn: () => fetch(`/api/safe/owner/${address}`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/safe/${safeAddress}/owner/${address}`).then((res) => res.json()),
     onSuccess: (isOwner: boolean) => {
       if (isOwner) {
         setIsSafeOwner(true);

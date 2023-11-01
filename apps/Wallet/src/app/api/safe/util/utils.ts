@@ -5,7 +5,7 @@ import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { network } from "./constants";
 
-export function getEtherscanProvider() {  
+export function getEtherscanProvider() {
   return ethers.getDefaultProvider(network, {
     etherscan: process.env.ETHERSCAN_ID!,
   });
@@ -13,7 +13,7 @@ export function getEtherscanProvider() {
 
 /**
  * Use this signer when making calls to the deployed Safe using the SDK
- * @param pk 
+ * @param pk
  * @returns signer object using the default RPC_URL
  */
 export function getSigner(pk: string) {
@@ -23,7 +23,7 @@ export function getSigner(pk: string) {
 
 /**
  * Use this signer when making calls to the deployed RBAC module
- * @param pk 
+ * @param pk
  * @returns signer object using an Etherscan provider
  */
 export function getEtherscanSigner(pk: string) {
@@ -60,8 +60,11 @@ export async function getSafe(safeAddress: string, pk?: string): Promise<Safe> {
   return safeSdk;
 }
 
-export async function createTransaction(body: SafeTransactionBody): Promise<ethers.ContractReceipt | undefined> {
-  const { safeAddress, pk, amount, destination } = body;
+export async function createTransaction(
+  safeAddress: string,
+  body: SafeTransactionBody
+): Promise<ethers.ContractReceipt | undefined> {
+  const { pk, amount, destination } = body;
   const safeSdk = await getSafe(safeAddress, pk);
   const ethAmount = ethers.utils.parseUnits(amount, "ether").toString();
 

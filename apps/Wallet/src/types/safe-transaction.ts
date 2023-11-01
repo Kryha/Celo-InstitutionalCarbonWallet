@@ -1,5 +1,4 @@
 export type SafeTransactionBody = {
-  safeAddress: string;
   pk: string;
   amount: string;
   destination: string;

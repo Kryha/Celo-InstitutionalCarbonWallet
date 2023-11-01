@@ -1,4 +1,4 @@
-import { NextApiRequestWithSafe, safeExists } from "@/app/api/safe/util/safeExists";
+import { safeExists } from "@/app/api/safe/util/safeExists";
 import { getSafe } from "../../util/utils";
 import { NextRequest } from "next/server";
 import { NextApiRequest } from "next";

@@ -30,7 +30,8 @@ export async function POST(req: Request): Promise<Response> {
   const executeTxResponse = await safeSdk.executeTransaction(addDelegateTransaction);
 
   const receipt = await executeTxResponse.transactionResponse?.wait();
-
+  console.log("receipt", receipt);
+  
   return new Response(JSON.stringify(receipt));
 }
 

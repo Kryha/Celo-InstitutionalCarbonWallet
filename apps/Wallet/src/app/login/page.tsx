@@ -96,7 +96,7 @@ export default function Login() {
             color="primary.light"
             sx={{ maxWidth: 500 }}
           >
-            Was your password compromised? Click here to {" "}
+            Click here to {" "}
             <Link
               href="https://myaccount.google.com/intro/signinoptions/password"
               target="_blank"

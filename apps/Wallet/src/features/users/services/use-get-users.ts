@@ -5,6 +5,6 @@ export function useGetUsers() {
   return useQuery({
     queryKey: ["users"],
     queryFn: (): Promise<User[]> =>
-      fetch(`/api/users?role=TRADER&role=ADMIN&role=REGISTERED`).then((res) => res.json()),
+      fetch(`/api/users?role=TRADER&role=REGISTERED`).then((res) => res.json()),
   });
 }

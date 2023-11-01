@@ -9,7 +9,7 @@ export async function POST(req: Request): Promise<Response> {
   const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS_CELO!;
   const signer = await getCeloSigner(body.pk);
   const rbac = Rbac__factory.connect(rbacModuleAddress, signer);
-  const safe = process.env.SAFE_ADDRESS!;
+  const safe = process.env.SAFE_ADDRESS_CELO!;
   const to = body.destination;
   const amount = ethers.utils.parseUnits(body.amount, "ether").toString();
   const tx = await rbac.executeTransfer(safe, to, amount);

@@ -14,12 +14,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { MouseEvent, useState } from "react";
-import { useAddUser, useGetUsers, useUpdateUser } from "./services";
+import { useAddUser, useGetUsers, useRemoveUser, useUpdateUser } from "./services";
 import { renderUserRole } from "./utils";
+import toast from "react-hot-toast";
 
 function UpdateRoleMenu({ user }: { user: User }) {
   const { mutate: updateUser, isLoading: isUpdatingUser } = useUpdateUser();
-  const { mutate: addUser } = useAddUser();
+  const { mutate: addUser, isLoading: isAddingUser } = useAddUser();
+  const { mutate: removeUser, isLoading: isRemovingUser } = useRemoveUser();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const pk = useWalletStore((state) => state.privateKey);
@@ -32,16 +34,7 @@ function UpdateRoleMenu({ user }: { user: User }) {
     setAnchorEl(null);
   };
 
-  const updateRole = (role: User["role"]) => {
-    addUser(
-      {
-        pk: pk,
-        address: user.publicKey,
-      },
-      {
-        onSuccess: () => console.log("successfully added user"),
-      }
-    );
+  const updateUserRole = (role: User["role"], toastId: string) =>
     updateUser(
       {
         role,
@@ -49,10 +42,19 @@ function UpdateRoleMenu({ user }: { user: User }) {
         publicKey: user.publicKey,
         emailAddress: user.emailAddress,
       },
-      {
-        onSuccess: () => handleClose(),
-      }
+      { onSuccess: () => toast.dismiss(toastId) }
     );
+
+  const handleUpdateUserRole = (role: User["role"]) => {
+    const toastId = toast.loading("Updating user role, please wait...");
+
+    handleClose();
+
+    if (role === "TRADER") {
+      addUser({ pk, address: user.publicKey }, { onSuccess: () => updateUserRole(role, toastId) });
+    } else {
+      removeUser({ pk, address: user.publicKey }, { onSuccess: () => updateUserRole(role, toastId) });
+    }
   };
 
   return (
@@ -60,7 +62,7 @@ function UpdateRoleMenu({ user }: { user: User }) {
       <IconButton
         onClick={handleClick}
         color="secondary"
-        disabled={isUpdatingUser}
+        disabled={isUpdatingUser || isAddingUser || isRemovingUser}
       >
         <MoreVertIcon />
       </IconButton>
@@ -74,7 +76,7 @@ function UpdateRoleMenu({ user }: { user: User }) {
           <MenuItem
             key={role}
             selected={role === user.role}
-            onClick={() => updateRole(role)}
+            onClick={() => handleUpdateUserRole(role)}
           >
             {renderUserRole(role)}
           </MenuItem>

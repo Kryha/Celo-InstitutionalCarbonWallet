@@ -93,7 +93,7 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
                   </Typography>
                 </Stack>
                 <Stack>
-                  <Chip label={`${ethers.utils.formatEther(ethers.BigNumber.from(value))} CELO`} />
+                  <Chip label={`${parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(value))).toFixed(6)} CELO`} />
                 </Stack>
               </Stack>
             }

@@ -136,7 +136,7 @@ export function SendTransactionForm() {
                     label="Value"
                     value={tokenValue}
                     disabled
-                    InputProps={{ endAdornment: <InputAdornment position="end">ETH</InputAdornment> }}
+                    InputProps={{ endAdornment: <InputAdornment position="end">CELO</InputAdornment> }}
                   />
                 </>
               )}

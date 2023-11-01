@@ -25,6 +25,7 @@ function UpdateRoleMenu({ user }: { user: User }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const pk = useWalletStore((state) => state.privateKey);
+  const safeAddress = useWalletStore((state) => state.safeAddress);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -41,6 +42,7 @@ function UpdateRoleMenu({ user }: { user: User }) {
         name: user.name,
         publicKey: user.publicKey,
         emailAddress: user.emailAddress,
+        safeAddress,
       },
       { onSuccess: () => toast.dismiss(toastId) }
     );

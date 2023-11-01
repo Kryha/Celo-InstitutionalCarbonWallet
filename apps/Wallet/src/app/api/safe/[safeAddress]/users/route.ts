@@ -22,8 +22,14 @@ export async function GET(req: NextRequest, { params }: SafeAddressParams): Prom
 
   await dbConnect();
 
-  const role = req.nextUrl.searchParams.getAll("role");
-  const users = await user.find<User>({ safeAddress: params.safeAddress, role: { $in: role } });
+  const roles = req.nextUrl.searchParams.getAll("role");
+
+  const query = {
+    safeAddress: params.safeAddress,
+    ...(roles.length > 0 ? { role: { $in: roles } } : {}), //add to query if exists
+  };
+
+  const users = await user.find<User>(query);
 
   return new Response(JSON.stringify(users));
 }

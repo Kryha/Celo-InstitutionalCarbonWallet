@@ -1,16 +1,17 @@
 "use client";
 
 import { useLogout } from "@/features";
+import { renderUserRole } from "@/features/users/utils";
 import { useWalletStore } from "@/store";
 import { User } from "@/types";
 import { shortenHashString } from "@/utils";
 import AccountCircle from "@mui/icons-material/AccountCircleOutlined";
-import Stack from "@mui/material/Stack";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
@@ -112,7 +113,7 @@ export function DashboardLayout({ children, user }: { children: ReactNode; user?
                       color="primary"
                       gutterBottom
                     >
-                      Role: {user?.role}
+                      Role: {renderUserRole(user?.role)}
                     </Typography>
                   </Stack>
                 </MenuItem>

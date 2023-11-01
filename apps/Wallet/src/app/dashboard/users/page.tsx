@@ -1,5 +1,7 @@
-import { Grid, Typography } from "@mui/material";
-import Link from "next/link";
+"use client";
+
+import { UsersTable } from "@/features";
+import { Grid } from "@mui/material";
 
 export default function Users() {
   return (
@@ -13,8 +15,7 @@ export default function Users() {
         item
         xs={12}
       >
-        <Typography>Users Page</Typography>
-        <Link href="/dashboard">Go to dashboard</Link>
+        <UsersTable />
       </Grid>
     </Grid>
   );

@@ -3,7 +3,6 @@ import { ROLES } from "@/types";
 
 export interface User extends mongoose.Document {
   name: string;
-  surname: string;
   publicKey: string;
   emailAddress: string;
   role: string;

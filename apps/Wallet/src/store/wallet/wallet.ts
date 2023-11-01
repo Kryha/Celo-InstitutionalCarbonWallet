@@ -6,6 +6,7 @@ import { SignInInfoSlice, createSignInInfoSlice } from "./sign-in-info-slice";
 import { UserInfoSlice, createUserInfoSlice } from "./user-info-slice";
 import { Web3AuthSlice, createWeb3AuthSlice } from "./web3auth-slice";
 import { IsSafeOwnerSlice, createIsSafeOwnerSlice } from "./is-safe-owner";
+import { SafeAddressSlice, createSafeAddressSlice } from "./safe-address-slice";
 
 type Wallet = AddressSlice &
   PrivateKeySlice &
@@ -13,7 +14,8 @@ type Wallet = AddressSlice &
   SignInInfoSlice &
   BalanceSlice &
   Web3AuthSlice &
-  IsSafeOwnerSlice;
+  IsSafeOwnerSlice &
+  SafeAddressSlice;
 
 export const useWalletStore = create<Wallet>()((...a) => ({
   ...createAddressSlice(...a),
@@ -23,4 +25,5 @@ export const useWalletStore = create<Wallet>()((...a) => ({
   ...createBalanceSlice(...a),
   ...createWeb3AuthSlice(...a),
   ...createIsSafeOwnerSlice(...a),
+  ...createSafeAddressSlice(...a),
 }));

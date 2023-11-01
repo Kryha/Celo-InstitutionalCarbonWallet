@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typechain": "typechain --target ethers-v5 --out-dir ./src/types/typechain/types/config/abis './src/types/typechain/abis/*.json'"
+    "typechain": "typechain --target ethers-v5 --always-generate-overloads --out-dir ./src/types/typechain/types/config/abis './src/types/typechain/abis/*.json'"
   },
   "dependencies": {
     "@emotion/react": "11.11.1",

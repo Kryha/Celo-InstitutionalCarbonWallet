@@ -8,13 +8,14 @@ export function useIsSafeOwner() {
   const { mutate: addOwner } = useAddSafeOwner();
   const { mutate: fundOwner } = useFundSafeOwner();
 
+    const safeAddress = useWalletStore((state) => state.safeAddress);
   const address = useWalletStore((state) => state.address);
   const balance = useWalletStore((state) => state.balance);
   const isSafeOwner = useWalletStore((state) => state.isSafeOwner);
   const setIsSafeOwner = useWalletStore((state) => state.setIsSafeOwner);
   return useQuery({
     queryKey: ["isOwner", address],
-    queryFn: () => fetch(`/api/safe/owner/${address}`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/safe/${safeAddress}/owner/${address}`).then((res) => res.json()),
     onSuccess: (isOwner: boolean) => {
       if (!isOwner) {
         addOwner(address);

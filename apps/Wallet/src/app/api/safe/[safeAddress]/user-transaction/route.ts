@@ -1,6 +1,6 @@
 import { ExecuteUserTransactionBody } from "@/types";
-import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
-import { getEtherscanSigner } from "../util/utils";
+import { Rbac__factory } from "../../../../../types/typechain/types/config/abis";
+import { getEtherscanSigner } from "../../util/utils";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as ExecuteUserTransactionBody;

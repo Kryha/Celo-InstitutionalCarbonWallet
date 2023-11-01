@@ -7,6 +7,7 @@ export interface User extends mongoose.Document {
   publicKey: string;
   emailAddress: string;
   role: string;
+  safeAddress: string;
 }
 
 const UserSchema = new mongoose.Schema<User>({
@@ -17,17 +18,19 @@ const UserSchema = new mongoose.Schema<User>({
   publicKey: {
     type: String,
     required: [true, "Please specify the public key of your user."],
-    unique: true,
   },
   emailAddress: {
     type: String,
     required: [true, "Please specify the email address."],
-    unique: true,
   },
   role: {
     type: String,
     required: [true, "Please specify a role for the user."],
     enum: ROLES,
+  },
+  safeAddress: {
+    type: String,
+    required: [true, "Please specify the safe address."],
   },
 });
 

@@ -5,20 +5,21 @@ import { useRegisterUser } from "./use-register-user";
 
 export function useGetUser() {
   const address = useWalletStore((state) => state.address);
+  const safeAddress = useWalletStore((state) => state.safeAddress);
   const userInfo = useWalletStore((state) => state.userInfo);
   const { mutate: registerUser } = useRegisterUser();
 
   return useQuery({
     queryKey: ["user", address],
-    queryFn: () => fetch(`/api/users/${address}`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/safe/${safeAddress}/users/${address}`).then((res) => res.json()),
     onSuccess: (user: User) => {
       if (!user) {
         registerUser({
           name: userInfo?.name || "",
-          surname: " ",
           publicKey: address,
           emailAddress: userInfo?.email || "",
           role: "REGISTERED",
+          safeAddress
         });
       }
     },

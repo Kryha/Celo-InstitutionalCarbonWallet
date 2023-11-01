@@ -5,5 +5,6 @@ export type User = {
   name: string;
   publicKey: string;
   emailAddress: string;
-  role?: Role;
+  role: Role;
+  safeAddress: string;
 };

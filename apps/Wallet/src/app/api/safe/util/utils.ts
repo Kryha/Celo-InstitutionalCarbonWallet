@@ -31,7 +31,7 @@ export function getEtherscanSigner(pk: string) {
   return new ethers.Wallet(pk, provider);
 }
 
-function getEthAdapter(pk?: string): EthersAdapter {
+export function getEthAdapter(pk?: string): EthersAdapter {
   const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
   let signer;
   if (pk) {
@@ -53,16 +53,16 @@ export async function getSafeService(): Promise<SafeApiKit> {
   return safeService;
 }
 
-export async function getSafe(pk?: string): Promise<Safe> {
+export async function getSafe(safeAddress: string, pk?: string): Promise<Safe> {
   const ethAdapter = getEthAdapter(pk);
-  const safeSdk = await Safe.create({ ethAdapter, safeAddress: process.env.SAFE_ADDRESS! });
+  const safeSdk = await Safe.create({ ethAdapter, safeAddress });
 
   return safeSdk;
 }
 
 export async function createTransaction(body: SafeTransactionBody): Promise<ethers.ContractReceipt | undefined> {
-  const { pk, amount, destination } = body;
-  const safeSdk = await getSafe(pk);
+  const { safeAddress, pk, amount, destination } = body;
+  const safeSdk = await getSafe(safeAddress, pk);
   const ethAmount = ethers.utils.parseUnits(amount, "ether").toString();
 
   const safeTransactionData: SafeTransactionDataPartial = {

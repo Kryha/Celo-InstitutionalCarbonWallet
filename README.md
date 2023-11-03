@@ -1,4 +1,6 @@
-![Alt text](icw-logo.png)
+<div align="center">
+  <img src="icw-logo.png" />
+</div>
 
 Institutional Wallet proof-of-concept for trading carbon credits. Built using the Safe Core SDK to make use of latest Account Abstraction features https://docs.safe.global/safe-core-aa-sdk/safe-apps.
 

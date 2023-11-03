@@ -4,10 +4,11 @@ import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { network } from "./constants";
+import { ETHERSCAN_ID, RPC_URL, SAFE_ADDRESS, TRANSACTION_SERVICE_URL } from "@/constants";
 
 export function getEtherscanProvider() {  
   return ethers.getDefaultProvider(network, {
-    etherscan: process.env.ETHERSCAN_ID!,
+    etherscan: ETHERSCAN_ID,
   });
 }
 
@@ -17,7 +18,7 @@ export function getEtherscanProvider() {
  * @returns signer object using the default RPC_URL
  */
 export function getSigner(pk: string) {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
+  const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
   return new ethers.Wallet(pk, provider);
 }
 
@@ -32,7 +33,7 @@ export function getEtherscanSigner(pk: string) {
 }
 
 function getEthAdapter(pk?: string): EthersAdapter {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
+  const provider = new ethers.providers.JsonRpcProvider(RPC_URL!);
   let signer;
   if (pk) {
     signer = new ethers.Wallet(pk, provider);
@@ -48,14 +49,14 @@ function getEthAdapter(pk?: string): EthersAdapter {
 
 export async function getSafeService(): Promise<SafeApiKit> {
   const ethAdapter = getEthAdapter();
-  const txServiceUrl = process.env.TRANSACTION_SERVICE_URL!;
+  const txServiceUrl = TRANSACTION_SERVICE_URL;
   const safeService = new SafeApiKit({ txServiceUrl, ethAdapter });
   return safeService;
 }
 
 export async function getSafe(pk?: string): Promise<Safe> {
   const ethAdapter = getEthAdapter(pk);
-  const safeSdk = await Safe.create({ ethAdapter, safeAddress: process.env.SAFE_ADDRESS! });
+  const safeSdk = await Safe.create({ ethAdapter, safeAddress: SAFE_ADDRESS });
 
   return safeSdk;
 }

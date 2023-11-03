@@ -1,0 +1,9 @@
+export const SAFE_ADDRESS = process.env.SAFE_ADDRESS || ""
+export const TRANSACTION_SERVICE_URL = process.env.TRANSACTION_SERVICE_URL || "https://safe-transaction-goerli.safe.global"
+export const RPC_URL= process.env.RPC_URL || "https://eth-goerli.public.blastapi.io"
+export const WEB3AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || "" 
+export const OWNER_1_PRIVATE_KEY_GOERLI= process.env.OWNER_1_PRIVATE_KEY_GOERLI || ''
+export const MONGODB_URI = process.env.MONGODB_URI || ""
+export const ETHERSCAN_ID = process.env.ETHERSCAN_ID || ""
+export const RBAC_MODULE_ADDRESS = process.env.RBAC_MODULE_ADDRESS || "0xfc3c71d00d522f8a2537523b22f54405011257ff"
+export const COMPANY_NAME = process.env.NEXT_PUBLIC_COMPANY_NAME || "Kryha";

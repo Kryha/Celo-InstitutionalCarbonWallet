@@ -2,17 +2,16 @@ import { ExecuteUserTransactionBody } from "@/types";
 import { ethers } from "ethers";
 import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
 import { getEtherscanSigner } from "../util/utils";
+import { RBAC_MODULE_ADDRESS, SAFE_ADDRESS } from "@/constants";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as ExecuteUserTransactionBody;
 
-  const rbacModuleAddress = process.env.RBAC_MODULE_ADDRESS!;
   const signer = getEtherscanSigner(body.pk);
-  const rbac = Rbac__factory.connect(rbacModuleAddress, signer);
-  const safe = process.env.SAFE_ADDRESS!;
+  const rbac = Rbac__factory.connect(RBAC_MODULE_ADDRESS, signer);
   const to = body.destination;
   const amount = ethers.utils.parseUnits(body.amount, "ether").toString();
-  const tx = await rbac.executeTransfer(safe, to, amount);
+  const tx = await rbac.executeTransfer(SAFE_ADDRESS, to, amount);
 
   await tx.wait();
 

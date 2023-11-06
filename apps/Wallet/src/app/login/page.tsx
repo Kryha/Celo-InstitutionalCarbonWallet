@@ -18,7 +18,7 @@ export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const { push } = useRouter();
   const openlogin_store = localStorage.getItem("openlogin_store") || "";
-  const hasSessionId = openlogin_store ? Boolean(JSON.parse(openlogin_store).sessionId ): false;
+  const hasSessionId = openlogin_store ? Boolean(JSON.parse(openlogin_store).sessionId) : false;
 
   const handleOnLoginClick = async () => {
     setIsLoggingIn(true);
@@ -88,7 +88,7 @@ export default function Login() {
             color="primary.light"
             sx={{ maxWidth: 500 }}
           >
-            Was your password compromised? Click here to {" "}
+            Was your password compromised? Click here to{" "}
             <Link
               href="https://myaccount.google.com/intro/signinoptions/password"
               target="_blank"

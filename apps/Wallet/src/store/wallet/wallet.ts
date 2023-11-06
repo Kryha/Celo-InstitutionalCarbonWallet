@@ -5,7 +5,7 @@ import { PrivateKeySlice, createPrivateKeySlice } from "./private-key-slice";
 import { SignInInfoSlice, createSignInInfoSlice } from "./sign-in-info-slice";
 import { UserInfoSlice, createUserInfoSlice } from "./user-info-slice";
 import { Web3AuthSlice, createWeb3AuthSlice } from "./web3auth-slice";
-import { IsSafeOwnerSlice, createIsSafeOwnerSlice } from "./is-safe-owner";
+import { IsSafeOwnerSlice, createIsSafeOwnerSlice } from "./is-safe-owner-slice";
 
 type Wallet = AddressSlice &
   PrivateKeySlice &

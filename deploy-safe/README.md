@@ -8,8 +8,8 @@ This directory includes scripts for:
 
 ### Prerequisite
 
-1. Make sure you have a .env file with funded accounts (check Slack) in the top level project directory 
-2. Make sure that .env file is sourced (might need to run `source .env`) from the top level directory
+1. Make sure you have a .env file with funded accounts in the top level project directory. We recommend using the GOERLI testnet or any other network supported by Safe, which you can check here https://docs.safe.global/safe-core-api/available-services. 
+2. Make sure that .env file is sourced (might need to run `source .env`) from the top level directory. 
 
 ### Deploying a safe
 
@@ -27,3 +27,7 @@ This directory includes scripts for:
 
 ### Executing transactions
 1. Run `npx ts-node deploy-safe/execute-transaction.ts`
+
+### Enabling a module
+1. If you want to use the custom module found in [contracts/](../contracts/) deploy it on the same network where you deployed your safe. You can use Remix to do this.
+2. To enable a module simply run the `enable-module` script found in [custom-module/enable-module](custom-module/enable-module.ts).

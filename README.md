@@ -19,7 +19,7 @@ Institutional Wallet proof-of-concept for trading carbon credits. Built using th
 1. Run `yarn` from the project root to install the node modules.
 2. Deploy a funded Safe by following the instructions in the `deploy-safe` directory README, found in [deploy-safe/README.md](deploy-safe/README.md).
 3. Deploy the RBAC contracts found in the [contracts/](contracts/) directory and enable that module using the [deploy-safe/custom-module/enable-module](deploy-safe/custom-module/enable-module.ts) script.
-4. Deploy your own MONGODB for user management https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/. 
+4. Deploy your own MONGODB for user management https://www.mongodb.com/free-cloud-database. 
 5. Once you have a funded Safe change into the `apps/Wallet` directory and run `yarn` to install dependencies.
 6. Create a `.env` file with the necessary data, check the example in [apps/Wallet/.env.example](apps/Wallet/.env.example).
 7. Run `yarn dev` from `apps/Wallet`, app should run on `http://localhost:3000`

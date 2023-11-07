@@ -8,8 +8,8 @@ This directory includes scripts for:
 
 ### Prerequisite
 
-1. Make sure you have a .env file with funded accounts (check Slack) in the top level project directory 
-2. Make sure that .env file is sourced (might need to run `source .env`) from the top level directory
+1. Make sure you have a .env file with funded accounts in the top level project directory. We recommend using the GOERLI testnet or any other network supported by Safe, which you can check here https://docs.safe.global/safe-core-api/available-services. 
+2. Make sure that .env file is sourced (might need to run `source .env`) from the top level directory. 
 
 ### Deploying a safe
 

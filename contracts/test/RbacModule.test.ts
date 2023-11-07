@@ -1,55 +1,58 @@
-import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { RbacModule } from "../typechain-types";
+import execSafeTransaction from "./test-helpers/exec-safe-transaction";
+import setup from "./test-helpers/setup";
 
 describe("RbacModule", function () {
-  let rbacModule: RbacModule;
-  let owner: HardhatEthersSigner;
-  let delegate: HardhatEthersSigner;
-  let ownerAddress: string;
-  let delegateAddress: string;
-
-  before(async function () {
-    [owner, delegate] = await ethers.getSigners();
-    ownerAddress = await owner.getAddress();
-
-    delegateAddress = await delegate.getAddress();
-
-    rbacModule = await ethers.deployContract("RbacModule");
-  });
-
   it("Add delegate", async function () {
-    await rbacModule.addDelegate(delegateAddress);
+    const { safe, rbacModule, owner, alice } = await loadFixture(setup);
+    await execSafeTransaction(safe, await rbacModule.addDelegate.populateTransaction(alice.address), owner);
 
-    const isDelegate = await rbacModule.isDelegate(ownerAddress, delegateAddress);
+    const isDelegate = await rbacModule.isDelegate(safe.getAddress(), alice.getAddress());
     expect(isDelegate).to.be.true;
   });
 
   it("Remove delegate", async function () {
-    await rbacModule.addDelegate(delegateAddress);
+    const { safe, rbacModule, owner, alice } = await loadFixture(setup);
+    await execSafeTransaction(safe, await rbacModule.addDelegate.populateTransaction(alice.address), owner);
 
-    await rbacModule.removeDelegate(delegateAddress);
+    const isDelegate = await rbacModule.isDelegate(safe.getAddress(), alice.getAddress());
+    expect(isDelegate).to.be.true;
 
-    const isDelegate = await rbacModule.isDelegate(ownerAddress, delegateAddress);
-    expect(isDelegate).to.be.false;
+    await execSafeTransaction(safe, await rbacModule.removeDelegate.populateTransaction(alice.address), owner);
+
+    const isDelegateFalsy = await rbacModule.isDelegate(safe.getAddress(), alice.getAddress());
+    expect(isDelegateFalsy).to.be.false;
   });
 
   it("Delegate can call transfer", async function () {
-    await rbacModule.connect(owner).addDelegate(delegateAddress);
+    const { safe, rbacModule, owner, alice, bob, provider } = await loadFixture(setup);
+    await execSafeTransaction(safe, await rbacModule.addDelegate.populateTransaction(alice.address), owner);
 
-    const mockDestination = "0x0000000000000000000000000000000000000000";
+    const isDelegate = await rbacModule.isDelegate(safe.getAddress(), alice.getAddress());
+    expect(isDelegate).to.be.true;
 
-    const amount = ethers.parseEther("1.0");
+    const initialSafeBalance = await provider.getBalance(safe);
+    const initialBobBalance = await provider.getBalance(bob);
+    const amount = ethers.parseEther("500");
 
-    await expect(rbacModule.connect(delegate).executeTransfer(ownerAddress, mockDestination, amount)).to.be.revertedWithoutReason();
+    await rbacModule.connect(alice).executeTransfer(safe.getAddress(), bob.getAddress(), amount);
+
+    const finalSafeBalance = await provider.getBalance(safe);
+    const finalBobBalance = await provider.getBalance(bob);
+
+    expect(finalSafeBalance.toString()).to.equal((initialSafeBalance - amount).toString());
+    expect(finalBobBalance.toString()).to.equal((initialBobBalance + amount).toString());
   });
 
   it("Delegate cannot make a transfer without being added as a delegate", async function () {
-    const mockDestination = "0x0000000000000000000000000000000000000000";
+    const { safe, rbacModule, alice, bob } = await loadFixture(setup);
 
     const amount = ethers.parseEther("1.0");
 
-    await expect(rbacModule.executeTransfer(ownerAddress, mockDestination, amount)).to.be.revertedWith("msg.sender is not a delegate");
+    await expect(rbacModule.connect(alice).executeTransfer(safe.getAddress(), bob.getAddress(), amount)).to.be.revertedWith(
+      "msg.sender is not a delegate"
+    );
   });
 });

@@ -27,3 +27,7 @@ This directory includes scripts for:
 
 ### Executing transactions
 1. Run `npx ts-node deploy-safe/execute-transaction.ts`
+
+### Enabling a module
+1. If you want to use the custom module found in [contracts/](../contracts/) deploy it on the same network where you deployed your safe. You can use Remix to do this.
+2. To enable a module simply run the `enable-module` script found in [custom-module/enable-module](custom-module/enable-module.ts).

@@ -5,6 +5,7 @@ import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { network } from "./constants";
 import { CeloProvider, CeloWallet } from "@celo-tools/celo-ethers-wrapper";
+import { ETHERSCAN_ID, RPC_URL, SAFE_ADDRESS, TRANSACTION_SERVICE_URL_CELO } from "@/constants";
 
 export function getCeloProvider() {  
   return new CeloProvider(process.env.RPC_URL_CELO!);
@@ -18,7 +19,7 @@ export async function getCeloSigner(pk: string) {
 
 export function getEtherscanProvider() {  
   return ethers.getDefaultProvider(network, {
-    etherscan: process.env.ETHERSCAN_ID!,
+    etherscan: ETHERSCAN_ID,
   });
 }
 
@@ -28,7 +29,7 @@ export function getEtherscanProvider() {
  * @returns signer object using the default RPC_URL
  */
 export function getSigner(pk: string) {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
+  const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
   return new ethers.Wallet(pk, provider);
 }
 
@@ -59,14 +60,14 @@ async function getEthAdapter(pk?: string): Promise<EthersAdapter> {
 
 export async function getSafeService(): Promise<SafeApiKit> {
   const ethAdapter = await getEthAdapter();
-  const txServiceUrl = process.env.TRANSACTION_SERVICE_URL_CELO!;
+  const txServiceUrl = TRANSACTION_SERVICE_URL_CELO;
   const safeService = new SafeApiKit({ txServiceUrl, ethAdapter });
   return safeService;
 }
 
 export async function getSafe(pk?: string): Promise<Safe> {
   const ethAdapter = await getEthAdapter(pk);
-  const safeSdk = await Safe.create({ ethAdapter, safeAddress: process.env.SAFE_ADDRESS_CELO! });
+  const safeSdk = await Safe.create({ ethAdapter, safeAddress: SAFE_ADDRESS_CELO });
 
   return safeSdk;
 }

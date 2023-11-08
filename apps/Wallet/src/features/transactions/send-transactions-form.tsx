@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useGetBalance, useGetTokenBalance } from "../balance";
 import { EXCHANGE_TRANSFER_LIST, NCT_TOKEN_PRICE } from "./constants";
 import { useSendTransaction } from "./services";
+import { COMPANY_NAME } from "@/constants";
 
 export function SendTransactionForm() {
   const privateKey = useWalletStore((state) => state.privateKey);
@@ -33,7 +34,6 @@ export function SendTransactionForm() {
   const destination = watch("destination");
   const exchange = EXCHANGE_TRANSFER_LIST.find((exchange) => exchange.value === destination);
   const tokenTypeOptions = exchange?.tokens.map((token) => ({ label: token.name, value: token.name })) || [];
-  const companyName = process.env.NEXT_PUBLIC_company_name!;
   const tokenValue = amount ? (Number(amount) * NCT_TOKEN_PRICE).toFixed(8) : 0;
 
   const onSubmit = (data: ExecuteUserTransactionBody) =>
@@ -56,7 +56,7 @@ export function SendTransactionForm() {
               variant="overline"
               color="primary.light"
             >
-              Celo Wallet of {companyName}
+              Celo Wallet of {COMPANY_NAME}
             </Typography>
             <Typography
               variant="body1"

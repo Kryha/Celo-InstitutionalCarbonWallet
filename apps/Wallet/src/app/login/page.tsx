@@ -9,15 +9,16 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
   const web3Auth = useWalletStore((state) => state.web3Auth);
   const login = useLogin();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const pathname = usePathname();
   const { push } = useRouter();
+  const openlogin_store = localStorage.getItem("openlogin_store") || "";
+  const hasSessionId = openlogin_store ? Boolean(JSON.parse(openlogin_store).sessionId) : false;
 
   const handleOnLoginClick = async () => {
     setIsLoggingIn(true);
@@ -25,16 +26,7 @@ export default function Login() {
     push("/dashboard");
   };
 
-  useEffect(() => {
-    const openlogin_store = localStorage.getItem("openlogin_store") || "";
-    const sessionId = openlogin_store ? JSON.parse(openlogin_store).sessionId : "";
-
-    if (!web3Auth && sessionId) {
-      localStorage.setItem("openlogin_store", JSON.stringify({ sessionId: "" }));
-    }
-  }, [web3Auth, pathname]);
-
-  if (isLoggingIn) {
+  if (isLoggingIn || hasSessionId) {
     return (
       <Stack
         height={1}
@@ -96,7 +88,7 @@ export default function Login() {
             color="primary.light"
             sx={{ maxWidth: 500 }}
           >
-            Click here to {" "}
+            Was your password compromised? Click here to{" "}
             <Link
               href="https://myaccount.google.com/intro/signinoptions/password"
               target="_blank"

@@ -11,7 +11,7 @@ import {
   safeAmountUnitGoerli,
   safeAppUrl_CELO,
   safeAppUrl_GOERLI,
-  safeThreshold,
+  safeThreshold
 } from "./util/constants";
 import { getEthersAdapter, getProvider, getSigner } from "./util/safe-wrappers";
 import { generateSaltNonce, writeToJson } from "./util/update-config";
@@ -19,9 +19,9 @@ require("dotenv").config();
 
 async function main() {
   // Set RPC URL here  (Goerli or Celo)
-  const provider = getProvider(RPC_URL_CELO);
+  const provider = getProvider(RPC_URL_GOERLI);
 
-  const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_CELO!, provider);
+  const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);
 
   const ethAdapterOwner1 = getEthersAdapter(owner1Signer);
 

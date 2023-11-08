@@ -1,11 +1,11 @@
 import { AddressTransactionBody } from "@/types";
 import { getSafe } from "../util/utils";
-import { OWNER_1_PRIVATE_KEY_CELO } from "@/constants";
+import { OWNER_1_PRIVATE_KEY } from "@/constants";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as AddressTransactionBody;
 
-  const safeSdk = await getSafe(OWNER_1_PRIVATE_KEY_CELO);
+  const safeSdk = await getSafe(OWNER_1_PRIVATE_KEY);
 
   let safeTransaction = await safeSdk.createAddOwnerTx({ ownerAddress: body.address });
   safeTransaction = await safeSdk.signTransaction(safeTransaction);

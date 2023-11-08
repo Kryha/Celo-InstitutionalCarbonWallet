@@ -11,6 +11,7 @@ import { useGetBalance, useGetTokenBalance } from "../balance";
 import { EXCHANGE_TRANSFER_LIST, NCT_TOKEN_PRICE } from "./constants";
 import { useSendTransaction } from "./services";
 import { COMPANY_NAME } from "@/constants";
+import { CHAIN_CONFIG } from "../web3auth";
 
 export function SendTransactionForm() {
   const privateKey = useWalletStore((state) => state.privateKey);
@@ -56,7 +57,7 @@ export function SendTransactionForm() {
               variant="overline"
               color="primary.light"
             >
-              Celo Wallet of {COMPANY_NAME}
+              {CHAIN_CONFIG.tickerName} Wallet of {COMPANY_NAME}
             </Typography>
             <Typography
               variant="body1"
@@ -74,7 +75,7 @@ export function SendTransactionForm() {
                 variant="body1"
                 color="primary.light"
               >
-                {parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(balance))).toFixed(10)} CELO
+                {parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(balance))).toFixed(10)} {CHAIN_CONFIG.ticker}
               </Typography>
             )}
             {isLoadingTokenBalance ? (
@@ -136,7 +137,7 @@ export function SendTransactionForm() {
                     label="Value"
                     value={tokenValue}
                     disabled
-                    InputProps={{ endAdornment: <InputAdornment position="end">CELO</InputAdornment> }}
+                    InputProps={{ endAdornment: <InputAdornment position="end">{CHAIN_CONFIG.ticker}</InputAdornment> }}
                   />
                 </>
               )}

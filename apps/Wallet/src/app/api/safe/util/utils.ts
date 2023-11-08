@@ -5,10 +5,10 @@ import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { network } from "./constants";
 import { CeloProvider, CeloWallet } from "@celo-tools/celo-ethers-wrapper";
-import { ETHERSCAN_ID, RPC_URL, SAFE_ADDRESS, TRANSACTION_SERVICE_URL_CELO } from "@/constants";
+import { ETHERSCAN_ID, RPC_URL, RPC_URL_CELO, SAFE_ADDRESS_CELO, TRANSACTION_SERVICE_URL_CELO } from "@/constants";
 
 export function getCeloProvider() {  
-  return new CeloProvider(process.env.RPC_URL_CELO!);
+  return new CeloProvider(RPC_URL_CELO);
 }
 
 export async function getCeloSigner(pk: string) {  

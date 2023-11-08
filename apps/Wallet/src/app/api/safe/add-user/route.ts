@@ -3,14 +3,14 @@ import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
 import { getCeloSigner, getSafe } from "../util/utils";
-import { OWNER_1_PRIVATE_KEY_CELO, RBAC_MODULE_ADDRESS } from "@/constants";
+import { OWNER_1_PRIVATE_KEY_CELO, RBAC_MODULE_ADDRESS_CELO } from "@/constants";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as UserManagementTransactionBody;
 
   const safeSdk = await getSafe(OWNER_1_PRIVATE_KEY_CELO);
 
-  const callData = await getAddUserCallData(body.pk, RBAC_MODULE_ADDRESS, body.address);
+  const callData = await getAddUserCallData(body.pk, RBAC_MODULE_ADDRESS_CELO, body.address);
 
   if (!callData) {
     throw new Error("Could not generate call data");
@@ -19,7 +19,7 @@ export async function POST(req: Request): Promise<Response> {
   const ethAmount = ethers.utils.parseUnits("0", "ether").toString();
 
   const safeTransactionData: SafeTransactionDataPartial = {
-    to: RBAC_MODULE_ADDRESS,
+    to: RBAC_MODULE_ADDRESS_CELO,
     data: callData,
     value: ethAmount,
   };

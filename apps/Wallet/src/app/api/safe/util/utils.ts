@@ -18,7 +18,6 @@ async function getCeloSigner(pk: string) {
 }
 
 function getEtherscanProvider() {  
-  console.log("returning etherscan provider2");
   return ethers.getDefaultProvider(network, {
     etherscan: ETHERSCAN_ID,
   });
@@ -40,7 +39,6 @@ function getSafeSigner(pk: string) {
  * @returns signer object using an Etherscan provider
  */
 function getEtherscanSigner(pk: string) {
-  console.log("returning etherscan provider1");
   const provider = getEtherscanProvider();
   return new ethers.Wallet(pk, provider);
 }
@@ -50,7 +48,6 @@ export function getProvider(etherscan?: boolean) {
     return getCeloProvider();
   } else {
     if(etherscan){
-      console.log("returning etherscan provider3");
       return getEtherscanProvider();
     } else {
       return new ethers.providers.JsonRpcProvider(RPC_URL);
@@ -63,7 +60,6 @@ export async function getSigner(pk: string, etherscan?: boolean) {
     return await getCeloSigner(pk);
   } else {
     if(etherscan){
-      console.log("returning etherscan provider0");
       return getEtherscanSigner(pk);
     } else {
       return getSafeSigner(pk);

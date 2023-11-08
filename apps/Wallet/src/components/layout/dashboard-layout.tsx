@@ -26,7 +26,8 @@ export function DashboardLayout({ children, user }: { children: ReactNode; user?
   const address = useWalletStore((state) => state.address);
   const isAdminUser = user?.role === "ADMIN";
   const { push } = useRouter();
-  const showMenu = Boolean(user) && Boolean(web3Auth);
+  const showMenu = Boolean(web3Auth);
+  const showUserInfo = Boolean(user);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -89,6 +90,7 @@ export function DashboardLayout({ children, user }: { children: ReactNode; user?
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                {showUserInfo && (
                 <MenuItem disabled>
                   <Stack>
                     <Typography
@@ -117,6 +119,7 @@ export function DashboardLayout({ children, user }: { children: ReactNode; user?
                     </Typography>
                   </Stack>
                 </MenuItem>
+                )}
                 {isAdminUser && <MenuItem onClick={navigateToUsersPage}>Users</MenuItem>}
                 <MenuItem onClick={handleOnLogoutClick}>Logout</MenuItem>
               </Menu>

@@ -1,9 +1,9 @@
 // https://chainlist.org/?search=goerli&testnets=true
 export const RPC_URL_GOERLI = "https://eth-goerli.public.blastapi.io";
-export const RPC_URL_CELO = "https://forno.celo.org"; // done
+export const RPC_URL_CELO = "https://forno.celo.org";
 
 export const txServiceUrl_GOERLI = "https://safe-transaction-goerli.safe.global/";
-export const txServiceUrl_CELO = "https://safe-transaction-celo.safe.global/"; // done
+export const txServiceUrl_CELO = "https://safe-transaction-celo.safe.global/";
 
 //goerli
 export const etherscanUrl_GOERLI = `https://goerli.etherscan.io/address`;
@@ -11,9 +11,9 @@ export const etherscanUrlTx_GOERLI = `https://goerli.etherscan.io/tx`;
 export const safeAppUrl_GOERLI = `https://app.safe.global/gor`;
 
 // CELO
-export const explorerUrlAddress_CELO = `https://explorer.celo.org/mainnet/address/`; // done
-export const explorerUrlAddressTx_CELO = `https://explorer.celo.org/mainnet/tx/`; // done
-export const safeAppUrl_CELO = `https://app.safe.global/celo`; // done
+export const explorerUrlAddress_CELO = `https://explorer.celo.org/mainnet/address/`;
+export const explorerUrlAddressTx_CELO = `https://explorer.celo.org/mainnet/tx/`;
+export const safeAppUrl_CELO = `https://app.safe.global/celo`;
 
 // Fund Safe amount goerli
 export const fundSafeAmount = `0.03`;

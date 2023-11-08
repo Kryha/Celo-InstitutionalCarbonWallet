@@ -1,14 +1,14 @@
+import { RBAC_MODULE_ADDRESS_CELO } from "@/constants";
 import { UserManagementTransactionBody } from "@/types";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { Rbac__factory } from "../../../../types/typechain/types/config/abis";
 import { getCeloSigner, getSafe } from "../util/utils";
-import { OWNER_1_PRIVATE_KEY_CELO, RBAC_MODULE_ADDRESS_CELO } from "@/constants";
 
 export async function POST(req: Request): Promise<Response> {
   const body = (await req.json()) as UserManagementTransactionBody;
 
-  const safeSdk = await getSafe(OWNER_1_PRIVATE_KEY_CELO);
+  const safeSdk = await getSafe(body.pk);
 
   const callData = await getRemoveUserCallData(body.pk, RBAC_MODULE_ADDRESS_CELO, body.address);
 

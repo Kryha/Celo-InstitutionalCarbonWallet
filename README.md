@@ -22,7 +22,7 @@ Institutional Wallet proof-of-concept for trading carbon credits. Built using th
 4. Deploy your own MONGODB for user management https://www.mongodb.com/free-cloud-database. Then update your `.env` file.
 5. Once you have a funded Safe change into the `apps/Wallet` directory and run `yarn` to install dependencies.
 6. Create a `.env` file with the necessary data, check the example in [apps/Wallet/.env.example](apps/Wallet/.env.example).
-7. Run `yarn dev` from `apps/Wallet`, app should run on `http://localhost:3000`
+7. Run `yarn dev` (or `yarn dev:celo` for Celo mainnet) from `apps/Wallet`, app should run on `http://localhost:3000`
 
 # Built with
 

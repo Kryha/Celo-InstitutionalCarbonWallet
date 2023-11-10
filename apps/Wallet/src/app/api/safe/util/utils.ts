@@ -1,12 +1,23 @@
+import { ETHERSCAN_ID, NEXT_PUBLIC_CELO_MAINNET, RPC_URL, SAFE_ADDRESS, TRANSACTION_SERVICE_URL } from "@/constants";
 import { SafeTransactionBody } from "@/types";
+import { CeloProvider, CeloWallet } from "@celo-tools/celo-ethers-wrapper";
 import SafeApiKit from "@safe-global/api-kit";
 import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { ethers } from "ethers";
 import { network } from "./constants";
-import { ETHERSCAN_ID, RPC_URL, SAFE_ADDRESS, TRANSACTION_SERVICE_URL } from "@/constants";
 
-export function getEtherscanProvider() {  
+function getCeloProvider() {  
+  return new CeloProvider(RPC_URL);
+}
+
+async function getCeloSigner(pk: string) {  
+  const provider = getCeloProvider();
+  await provider.ready;
+  return new CeloWallet(pk, provider);
+}
+
+function getEtherscanProvider() {  
   return ethers.getDefaultProvider(network, {
     etherscan: ETHERSCAN_ID,
   });
@@ -17,7 +28,7 @@ export function getEtherscanProvider() {
  * @param pk 
  * @returns signer object using the default RPC_URL
  */
-export function getSigner(pk: string) {
+function getSafeSigner(pk: string) {
   const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
   return new ethers.Wallet(pk, provider);
 }
@@ -27,16 +38,40 @@ export function getSigner(pk: string) {
  * @param pk 
  * @returns signer object using an Etherscan provider
  */
-export function getEtherscanSigner(pk: string) {
+function getEtherscanSigner(pk: string) {
   const provider = getEtherscanProvider();
   return new ethers.Wallet(pk, provider);
 }
 
-function getEthAdapter(pk?: string): EthersAdapter {
-  const provider = new ethers.providers.JsonRpcProvider(RPC_URL!);
+export function getProvider(etherscan?: boolean) {
+  if(NEXT_PUBLIC_CELO_MAINNET === "true") {
+    return getCeloProvider();
+  } else {
+    if(etherscan){
+      return getEtherscanProvider();
+    } else {
+      return new ethers.providers.JsonRpcProvider(RPC_URL);
+    }
+  }
+}
+
+export async function getSigner(pk: string, etherscan?: boolean) {
+  if(NEXT_PUBLIC_CELO_MAINNET === "true") {
+    return await getCeloSigner(pk);
+  } else {
+    if(etherscan){
+      return getEtherscanSigner(pk);
+    } else {
+      return getSafeSigner(pk);
+    }
+  }
+}
+
+async function getEthAdapter(pk?: string): Promise<EthersAdapter> {
+  const provider = getProvider();
   let signer;
   if (pk) {
-    signer = new ethers.Wallet(pk, provider);
+    signer = await getSigner(pk);
   }
 
   const ethAdapter = new EthersAdapter({
@@ -48,14 +83,14 @@ function getEthAdapter(pk?: string): EthersAdapter {
 }
 
 export async function getSafeService(): Promise<SafeApiKit> {
-  const ethAdapter = getEthAdapter();
+  const ethAdapter = await getEthAdapter();
   const txServiceUrl = TRANSACTION_SERVICE_URL;
   const safeService = new SafeApiKit({ txServiceUrl, ethAdapter });
   return safeService;
 }
 
 export async function getSafe(pk?: string): Promise<Safe> {
-  const ethAdapter = getEthAdapter(pk);
+  const ethAdapter = await getEthAdapter(pk);
   const safeSdk = await Safe.create({ ethAdapter, safeAddress: SAFE_ADDRESS });
 
   return safeSdk;

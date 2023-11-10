@@ -4,7 +4,7 @@ import { getSafeAddress } from "../util/update-config";
 require("dotenv").config();
 
 async function enableModule(moduleAddress: string) {
-  // Set RPC URL here  (Goerli or Alfajores)
+  // Set RPC URL here  (Goerli or Celo)
   const provider = getProvider(RPC_URL_GOERLI);
 
   const owner1Signer = getSigner(process.env.OWNER_1_PRIVATE_KEY_GOERLI!, provider);

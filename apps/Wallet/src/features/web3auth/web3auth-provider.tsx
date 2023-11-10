@@ -1,7 +1,7 @@
 "use client";
 
+import { ADAPTER_SETTINGS, CHAIN_CONFIG, useUpdateWalletStore } from "@/features";
 import { WEB3AUTH_CLIENT_ID } from "@/constants";
-import { ADAPTER_SETTINGS, GOERLI_CHAIN_CONFIG, useUpdateWalletStore } from "@/features";
 import { useWalletStore } from "@/store";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
@@ -21,11 +21,11 @@ export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const web3AuthInstance = new Web3AuthNoModal({
           clientId,
-          chainConfig: GOERLI_CHAIN_CONFIG,
+          chainConfig: CHAIN_CONFIG,
           web3AuthNetwork: "testnet",
         });
 
-        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig: GOERLI_CHAIN_CONFIG } });
+        const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig: CHAIN_CONFIG } });
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings: ADAPTER_SETTINGS,

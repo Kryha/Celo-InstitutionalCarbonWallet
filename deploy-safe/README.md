@@ -14,7 +14,7 @@ This directory includes scripts for:
 ### Deploying a safe
 
 1. If you want to deploy to Georli (current default) make sure the RPC URL is for the Goerli testnet when setting the provider
-2. If you want to deploy to Alfajores (Celo testnet) make sure the RPC URL is for the Alfajores testnet when setting the provider
+2. If you want to deploy to Celo mainnet make sure the RPC URL is for the Celo mainnet when setting the provider
 3. Run `npx ts-node deploy-safe/deploy-and-fund-safe.ts` from the top level dir
 
 ### Proposing transactions

@@ -1,5 +1,6 @@
 "use client";
 
+import { CHAIN_CONFIG } from "@/features/web3auth/constants";
 import { shortenHashString } from "@/utils";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import { Chip, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
@@ -93,7 +94,7 @@ export function TransactionsListItem(props: TransactionsListItemProps) {
                   </Typography>
                 </Stack>
                 <Stack>
-                  <Chip label={`${ethers.utils.formatEther(ethers.BigNumber.from(value))} ETH`} />
+                  <Chip label={`${parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(value))).toFixed(6)} ${CHAIN_CONFIG.ticker}`} />
                 </Stack>
               </Stack>
             }

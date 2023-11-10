@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:celo": "NEXT_PUBLIC_CELO_MAINNET=true next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "typechain": "typechain --target ethers-v5 --out-dir ./src/types/typechain/types/config/abis './src/types/typechain/abis/*.json'"
   },
   "dependencies": {
+    "@celo-tools/celo-ethers-wrapper": "1.0.0",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
     "@mui/icons-material": "5.14.11",

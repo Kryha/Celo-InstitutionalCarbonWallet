@@ -17,7 +17,7 @@ export default function Login() {
   const login = useLogin();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const { push } = useRouter();
-  const openlogin_store = localStorage.getItem("openlogin_store") || "";
+  const openlogin_store = typeof window !== "undefined" ? localStorage.getItem("openlogin_store") : "";
   const hasSessionId = openlogin_store ? Boolean(JSON.parse(openlogin_store).sessionId) : false;
 
   const handleOnLoginClick = async () => {
